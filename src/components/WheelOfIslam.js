@@ -65,7 +65,7 @@ const WheelOfIslam = () => {
         themeName === 'story' ? 'animate-fade-in' : ''
       }`}
       style={{
-        backgroundColor: theme.background,
+        // backgroundColor: theme.background, // Removed to allow background image to show
         color: theme.text,
         fontFamily: themeName === 'story' ? `'Poppins', sans-serif` : 'inherit',
       }}
@@ -94,9 +94,9 @@ const WheelOfIslam = () => {
         <div className="flex flex-col items-center">
           <h1
             className="text-3xl sm:text-5xl font-bold mb-6 text-center"
-            style={{ color: theme.primary }}
+            style={{ color: theme.secondary }}
           >
-            Wheel of Islam — Digital Navigator
+            Wheel of Islam. Your Digital Guide
           </h1>
 
           <div
