@@ -11,12 +11,12 @@ import { useNavigate } from 'react-router-dom';
 const topics = [
   { english: 'Purification', arabic: 'Tazkiyyah', color: '#8E7DBE', icon: '💖' },
   { english: 'Divine Law', arabic: 'Sharia', color: '#F4A261', icon: '⚖️' },
-  { english: 'The Final Revelation', arabic: "Qur'an", color: '#2A9D8F', icon: '📖' },
+  { english: 'Revelation', arabic: "Qur'an", color: '#2A9D8F', icon: '📖' },
   { english: 'Prophetic Guidance', arabic: 'Hadith & Sunnah', color: '#E76F51', icon: '🕊️' },
   { english: 'Worship', arabic: 'Al Ibadah', color: '#E9C46A', icon: '🙏' },
-  { english: 'The Afterlife', arabic: 'Akhirah', color: '#A26769', icon: '🌅' },
-  { english: 'The Prophets', arabic: 'Anbiya', color: '#6C91BF', icon: '🧕' },
-  { english: 'The Unseen', arabic: 'Al-Ghayb', color: '#B5838D', icon: '✨' },
+  { english: 'Afterlife', arabic: 'Akhirah', color: '#A26769', icon: '🌅' },
+  { english: 'Prophets', arabic: 'Anbiya', color: '#6C91BF', icon: '��' },
+  { english: 'Unseen', arabic: 'Al-Ghayb', color: '#B5838D', icon: '✨' },
 ];
 
 const WheelOfIslam = () => {
@@ -50,7 +50,7 @@ const WheelOfIslam = () => {
   });
 
   const handleClick = (topic) => {
-    if (topic === 'The (One and Only) True God') {
+    if (topic === 'The (One and Only) True God' || topic === 'One True God') {
       navigate('/names');
     } else if (topic === 'Settings') {
       navigate('/settings');
@@ -61,14 +61,8 @@ const WheelOfIslam = () => {
     }
   };
 
-  // Dynamically scale topic title font size for readability and fit
-  const getTopicFontSize = (text) => {
-    const base = outerRadius * 0.22;
-    if (text.length > 18) return base * 0.7;
-    if (text.length > 14) return base * 0.8;
-    if (text.length > 10) return base * 0.9;
-    return base;
-  };
+  // Use a fixed font size for all topic titles (outer circles)
+  const topicFontSize = outerRadius * 0.18;
   // Calculate font size for center title to fit within the center circle
   const getCenterFontSize = (text) => {
     const base = centerRadius * 0.22;
@@ -136,7 +130,7 @@ const WheelOfIslam = () => {
             <circle
               cx={center}
               cy={center}
-              r={radius}
+              r={radius * 0.86}
               fill="none"
               stroke={theme.border}
               strokeWidth="2"
@@ -146,8 +140,8 @@ const WheelOfIslam = () => {
             {/* Stralenlijnen */}
             {topics.map((_, index) => {
               const angle = (index / topics.length) * 2 * Math.PI;
-              const lineStart = calculatePoint(angle, centerRadius * 0.9);
-              const lineEnd = calculatePoint(angle, radius + outerRadius);
+              const lineStart = calculatePoint(angle, centerRadius);
+              const lineEnd = calculatePoint(angle, radius * 0.86);
               return (
                 <line
                   key={`line-${index}`}
@@ -181,20 +175,20 @@ const WheelOfIslam = () => {
                     stroke={centerStroke}
                     strokeWidth="3"
                     onClick={() => handleClick('The (One and Only) True God')}
-                    style={{ cursor: 'pointer' }}
+                    style={themeName === 'neon' ? { cursor: 'pointer', filter: `drop-shadow(0 0 6px ${theme.border})` } : { cursor: 'pointer' }}
                   />
                   <text
                     x={center}
                     y={center}
                     textAnchor="middle"
                     fill={centerTextColor}
-                    fontSize={getCenterFontSize('The One True God')}
+                    fontSize={getCenterFontSize('One True God')}
                     fontWeight="bold"
                     dy=".3em"
                     pointerEvents="none"
                     style={{ textShadow: '0 0 6px #00f2fa', textTransform: 'uppercase' }}
                   >
-                    {'The One True God'.toUpperCase()}
+                    {'One True God'.toUpperCase()}
                   </text>
                 </>
               );
@@ -203,7 +197,7 @@ const WheelOfIslam = () => {
             {/* Buitenste cirkels + labels */}
             {topics.map((topic, index) => {
               const angle = (index / topics.length) * 2 * Math.PI;
-              const pos = calculatePoint(angle, radius);
+              const pos = calculatePoint(angle, radius * 0.86);
 
               const fillColor =
                 themeName === 'story' ? topic.color : theme.background;
@@ -245,7 +239,7 @@ const WheelOfIslam = () => {
                     y={pos.y}
                     textAnchor="middle"
                     fill={textColor}
-                    fontSize={getTopicFontSize(topic.english)}
+                    fontSize={topicFontSize}
                     fontWeight="bold"
                     dy="0"
                     style={{ textShadow: '0 0 6px #00f2fa', textTransform: 'uppercase' }}
