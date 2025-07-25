@@ -5,10 +5,11 @@ import NameDetail from './NameDetail';
 import Settings from './Settings';
 import TazkiyyahLanding from './TazkiyyahLanding';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 
 const topics = [
-  { english: 'Purification of the spiritual heart', arabic: 'Tazkiyyah', color: '#8E7DBE', icon: '💖' },
+  { english: 'Purification', arabic: 'Tazkiyyah', color: '#8E7DBE', icon: '💖' },
   { english: 'Divine Law', arabic: 'Sharia', color: '#F4A261', icon: '⚖️' },
   { english: 'The Final Revelation', arabic: "Qur'an", color: '#2A9D8F', icon: '📖' },
   { english: 'Prophetic Guidance', arabic: 'Hadith & Sunnah', color: '#E76F51', icon: '🕊️' },
@@ -20,10 +21,10 @@ const topics = [
 
 const WheelOfIslam = () => {
   const [selectedName, setSelectedName] = useState(null);
-  const [language, setLanguage] = useState('english');
   const svgRef = useRef(null);
   const [size, setSize] = useState(0);
   const { theme, themeName } = useTheme();
+  const { language } = useLanguage();
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
@@ -52,12 +53,23 @@ const WheelOfIslam = () => {
     if (topic === 'The (One and Only) True God') {
       navigate('/names');
     } else if (topic === 'Settings') {
-      // You can add a route for settings if needed
-    } else if (topic === 'Purification of the spiritual heart') {
+      navigate('/settings');
+    } else if (topic === 'Purification') {
       navigate('/tazkiyyah');
     } else {
-      alert(`Clicked on: ${topic}`);
+      alert('Coming soon!');
     }
+  };
+
+  // Use a fixed font size for all topic titles
+  const topicFontSize = outerRadius * 0.16;
+  // Calculate font size for center title to fit within the center circle
+  const getCenterFontSize = (text) => {
+    const base = centerRadius * 0.22;
+    if (text.length > 18) return base * 0.7;
+    if (text.length > 14) return base * 0.8;
+    if (text.length > 10) return base * 0.9;
+    return base;
   };
 
   return (
@@ -94,7 +106,7 @@ const WheelOfIslam = () => {
       <div className="flex flex-col items-center">
         <h1
           className="text-3xl sm:text-5xl font-bold mb-6 text-center"
-          style={{ color: theme.secondary }}
+          style={{ color: theme.secondary, textShadow: '0 0 6px #00f2fa' }}
         >
           Wheel of Islam. Your Digital Guide
         </h1>
@@ -122,6 +134,7 @@ const WheelOfIslam = () => {
               fill="none"
               stroke={theme.border}
               strokeWidth="2"
+              style={themeName === 'neon' ? { filter: `drop-shadow(0 0 6px ${theme.border})` } : {}}
             />
 
             {/* Stralenlijnen */}
@@ -138,6 +151,7 @@ const WheelOfIslam = () => {
                   y2={lineEnd.y}
                   stroke={theme.border}
                   strokeWidth="2"
+                  style={themeName === 'neon' ? { filter: `drop-shadow(0 0 6px ${theme.border})` } : {}}
                 />
               );
             })}
@@ -168,12 +182,13 @@ const WheelOfIslam = () => {
                     y={center}
                     textAnchor="middle"
                     fill={centerTextColor}
-                    fontSize={centerRadius * 0.22}
+                    fontSize={getCenterFontSize('The One True God')}
                     fontWeight="bold"
                     dy=".3em"
                     pointerEvents="none"
+                    style={{ textShadow: '0 0 6px #00f2fa', textTransform: 'uppercase' }}
                   >
-                    The One True God
+                    {'The One True God'.toUpperCase()}
                   </text>
                 </>
               );
@@ -205,6 +220,7 @@ const WheelOfIslam = () => {
                     fill={fillColor}
                     stroke={strokeColor}
                     strokeWidth="2"
+                    style={themeName === 'neon' ? { filter: `drop-shadow(0 0 6px ${strokeColor})` } : {}}
                   />
                   {themeName === 'story' && (
                     <text
@@ -223,25 +239,17 @@ const WheelOfIslam = () => {
                     y={pos.y}
                     textAnchor="middle"
                     fill={textColor}
-                    fontSize={outerRadius * 0.18}
+                    fontSize={topicFontSize}
                     fontWeight="bold"
                     dy="0"
+                    style={{ textShadow: '0 0 6px #00f2fa', textTransform: 'uppercase' }}
                   >
-                    {topic.english.split(' ')[0]}
-                  </text>
-                  <text
-                    x={pos.x}
-                    y={pos.y + outerRadius * 0.25}
-                    textAnchor="middle"
-                    fill={textColor}
-                    fontSize={outerRadius * 0.14}
-                  >
-                    {topic.english.split(' ').slice(1).join(' ')}
+                    {topic.english.toUpperCase()}
                   </text>
                   {language === 'english_phonetic' && (
                     <text
                       x={pos.x}
-                      y={pos.y + outerRadius * 0.45}
+                      y={pos.y + outerRadius * 0.25}
                       textAnchor="middle"
                       fill={textColor}
                       fontSize={outerRadius * 0.13}
@@ -262,10 +270,14 @@ const WheelOfIslam = () => {
             border: `2px solid ${theme.secondary}`,
             color: theme.secondary,
             backgroundColor: 'transparent',
+            textShadow: '0 0 6px #00f2fa',
           }}
         >
           ⚙️ Settings
         </button>
+        <button onClick={() => { localStorage.removeItem('userGoal'); window.location.reload(); }}>
+  Reset Onboarding
+</button>
       </div>
 
       {/* Remove all view state and conditional rendering for 'names', 'detail', etc. Only keep the wheel rendering for now. */}

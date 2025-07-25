@@ -1,7 +1,11 @@
 import React from 'react';
 import { useTheme } from '../context/ThemeContext';
+import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
-const Settings = ({ language, setLanguage, onBack }) => {
+const Settings = () => {
+  const { language, setLanguage } = useLanguage();
+  const navigate = useNavigate();
   const { themeName, setThemeName, theme } = useTheme();
 
   return (
@@ -48,15 +52,10 @@ const Settings = ({ language, setLanguage, onBack }) => {
       </select>
 
       <button
-        onClick={onBack}
-        className="mt-6 px-4 py-2 text-lg font-bold rounded-lg"
-        style={{
-          color: theme.secondary,
-          border: `2px solid ${theme.secondary}`,
-          backgroundColor: 'transparent',
-        }}
+        className="mt-6 px-4 py-2 border-2 border-teal-400 text-teal-400 rounded-full hover:bg-teal-700 hover:text-white"
+        onClick={() => navigate('/')}
       >
-        Back to Main
+        Back to Wheel
       </button>
     </div>
   );

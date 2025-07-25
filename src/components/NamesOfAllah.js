@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 const NamesOfAllah = () => {
   const navigate = useNavigate();
+  const { language } = useLanguage();
   const namesOfAllah = [
     { title: 'The Most Merciful', name: 'Ar-Rahman', id: 'ar-rahman' },
     { title: 'The Most Compassionate', name: 'Ar-Rahim', id: 'ar-rahim' },
