@@ -1,3 +1,48 @@
+# Wheel of Islam
+
+**Wheel of Islam** is a modern, interactive web application designed to help Muslim youth—especially those growing up in Western contexts—reconnect with their faith in a non-judgmental, engaging, and personalized way.
+
+At its core, the app features a visually appealing “wheel” interface, where each segment represents a foundational topic of Islam (such as Worship, Tazkiyyah, Qur’an, Prophetic Guidance, and more). Users can freely explore any topic at their own pace, with the app providing approachable, bite-sized knowledge and actionable steps tailored to their current level of understanding and practice.
+
+To further support users facing doubts, misconceptions, or challenging questions—often encountered in Western environments—the app includes the **Dawah Guide**. This feature allows users to anonymously submit any statement, question, or doubt they’ve heard (e.g., “God does not exist,” “Why do Muslims pray five times a day?”). The Dawah Guide responds with empathetic, faith-based, and contextually relevant answers, powered by a combination of AI and pre-approved responses, and always encourages further exploration and learning.
+
+## Key Features
+- **Non-linear, user-driven exploration** of core Islamic topics via the interactive wheel.
+- **Personalized content and micro-actions** based on the user’s current level and interests.
+- **Dawah Guide:** An AI-powered assistant for addressing doubts, misconceptions, and questions in a safe, anonymous, and supportive environment.
+- **Resource links and further reading** for users who want to deepen their understanding.
+- **Modern, mobile-friendly design** tailored for Gen Z, with a focus on accessibility, inclusivity, and positive reinforcement.
+
+**Mission:**
+To provide Muslim youth with a safe, engaging, and empowering digital space to learn, reflect, and grow in their faith—starting from wherever they are, and always without judgment or overwhelm.
+
+---
+
+## Pitch Deck Summary
+
+**Vision:**
+Empower Muslim youth to reconnect with their faith through a modern, non-judgmental, and interactive digital experience.
+
+**Problem:**
+Many Muslim youth, especially in Western societies, face doubts, misconceptions, and a lack of accessible, relatable resources to support their faith journey.
+
+**Solution:**
+Wheel of Islam offers a visually engaging, non-linear exploration of core Islamic topics, paired with Dawah Guide—an AI-powered assistant that provides empathetic, faith-based answers to any question or doubt, anonymously and safely.
+
+**Key Features:**
+- Interactive wheel for self-paced, topic-based learning
+- Personalized, actionable content for every user
+- Dawah Guide for real-time, AI-powered Q&A
+- Resource links and further reading
+- Mobile-first, Gen Z-friendly design
+
+**Impact:**
+- Reduces overwhelm and judgment for youth at any stage of their faith journey
+- Equips users to address doubts and misconceptions with confidence
+- Fosters a positive, supportive, and inclusive digital faith community
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
