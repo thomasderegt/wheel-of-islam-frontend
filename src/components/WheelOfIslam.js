@@ -61,8 +61,14 @@ const WheelOfIslam = () => {
     }
   };
 
-  // Use a fixed font size for all topic titles
-  const topicFontSize = outerRadius * 0.16;
+  // Dynamically scale topic title font size for readability and fit
+  const getTopicFontSize = (text) => {
+    const base = outerRadius * 0.22;
+    if (text.length > 18) return base * 0.7;
+    if (text.length > 14) return base * 0.8;
+    if (text.length > 10) return base * 0.9;
+    return base;
+  };
   // Calculate font size for center title to fit within the center circle
   const getCenterFontSize = (text) => {
     const base = centerRadius * 0.22;
@@ -239,7 +245,7 @@ const WheelOfIslam = () => {
                     y={pos.y}
                     textAnchor="middle"
                     fill={textColor}
-                    fontSize={topicFontSize}
+                    fontSize={getTopicFontSize(topic.english)}
                     fontWeight="bold"
                     dy="0"
                     style={{ textShadow: '0 0 6px #00f2fa', textTransform: 'uppercase' }}
