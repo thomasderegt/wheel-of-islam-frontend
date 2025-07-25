@@ -105,15 +105,22 @@ const WheelOfIslam = () => {
 
       <div className="flex flex-col items-center">
         <h1
-          className="text-3xl sm:text-5xl font-bold mb-6 text-center"
-          style={{ color: theme.secondary, textShadow: '0 0 6px #00f2fa' }}
+          className="text-3xl sm:text-5xl font-bold text-center"
+          style={{ color: theme.secondary, textShadow: '0 0 6px #00f2fa', marginBottom: 0 }}
         >
-          Wheel of Islam. Your Digital Guide
+          Wheel of Islam
         </h1>
+        <div
+          className="text-base sm:text-2xl font-semibold text-center mb-6"
+          style={{ color: theme.secondary, textShadow: '0 0 6px #00f2fa', marginTop: 4 }}
+        >
+          Your Digital Guide
+        </div>
 
         <div
           ref={svgRef}
-          className="w-full max-w-[90vmin] aspect-square mx-auto flex items-center justify-center"
+          className="w-full aspect-square mx-auto flex items-center justify-center"
+          style={{ maxWidth: '100vw', width: '100vw', padding: '0 8px' }}
         >
           <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full">
             {/* Radial gradient (Story only) */}
