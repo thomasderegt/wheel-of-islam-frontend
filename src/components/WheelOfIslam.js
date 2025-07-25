@@ -5,6 +5,7 @@ import NameDetail from './NameDetail';
 import Settings from './Settings';
 import TazkiyyahLanding from './TazkiyyahLanding';
 import { useTheme } from '../context/ThemeContext';
+import { useNavigate } from 'react-router-dom';
 
 const topics = [
   { english: 'Purification of the spiritual heart', arabic: 'Tazkiyyah', color: '#8E7DBE', icon: '💖' },
@@ -18,12 +19,12 @@ const topics = [
 ];
 
 const WheelOfIslam = () => {
-  const [view, setView] = useState('wheel');
   const [selectedName, setSelectedName] = useState(null);
   const [language, setLanguage] = useState('english');
   const svgRef = useRef(null);
   const [size, setSize] = useState(0);
   const { theme, themeName } = useTheme();
+  const navigate = useNavigate();
 
   useLayoutEffect(() => {
     const updateSize = () => {
@@ -49,11 +50,11 @@ const WheelOfIslam = () => {
 
   const handleClick = (topic) => {
     if (topic === 'The (One and Only) True God') {
-      setView('names');
+      navigate('/names');
     } else if (topic === 'Settings') {
-      setView('settings');
+      // You can add a route for settings if needed
     } else if (topic === 'Purification of the spiritual heart') {
-      setView('tazkiyyah');
+      navigate('/tazkiyyah');
     } else {
       alert(`Clicked on: ${topic}`);
     }
@@ -90,186 +91,185 @@ const WheelOfIslam = () => {
         }
       `}</style>
 
-      {view === 'wheel' && (
-        <div className="flex flex-col items-center">
-          <h1
-            className="text-3xl sm:text-5xl font-bold mb-6 text-center"
-            style={{ color: theme.secondary }}
-          >
-            Wheel of Islam. Your Digital Guide
-          </h1>
+      <div className="flex flex-col items-center">
+        <h1
+          className="text-3xl sm:text-5xl font-bold mb-6 text-center"
+          style={{ color: theme.secondary }}
+        >
+          Wheel of Islam. Your Digital Guide
+        </h1>
 
-          <div
-            ref={svgRef}
-            className="w-full max-w-[90vmin] aspect-square mx-auto flex items-center justify-center"
-          >
-            <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full">
-              {/* Radial gradient (Story only) */}
-              {themeName === 'story' && (
-                <defs>
-                  <radialGradient id="centerGradient" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#b18fff" />
-                    <stop offset="100%" stopColor="#805ad5" />
-                  </radialGradient>
-                </defs>
-              )}
+        <div
+          ref={svgRef}
+          className="w-full max-w-[90vmin] aspect-square mx-auto flex items-center justify-center"
+        >
+          <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full">
+            {/* Radial gradient (Story only) */}
+            {themeName === 'story' && (
+              <defs>
+                <radialGradient id="centerGradient" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#b18fff" />
+                  <stop offset="100%" stopColor="#805ad5" />
+                </radialGradient>
+              </defs>
+            )}
 
-              {/* Buitenste ring */}
-              <circle
-                cx={center}
-                cy={center}
-                r={radius}
-                fill="none"
-                stroke={theme.border}
-                strokeWidth="2"
-              />
+            {/* Buitenste ring */}
+            <circle
+              cx={center}
+              cy={center}
+              r={radius}
+              fill="none"
+              stroke={theme.border}
+              strokeWidth="2"
+            />
 
-              {/* Stralenlijnen */}
-              {topics.map((_, index) => {
-                const angle = (index / topics.length) * 2 * Math.PI;
-                const lineStart = calculatePoint(angle, centerRadius * 0.9);
-                const lineEnd = calculatePoint(angle, radius + outerRadius);
-                return (
-                  <line
-                    key={`line-${index}`}
-                    x1={lineStart.x}
-                    y1={lineStart.y}
-                    x2={lineEnd.x}
-                    y2={lineEnd.y}
-                    stroke={theme.border}
+            {/* Stralenlijnen */}
+            {topics.map((_, index) => {
+              const angle = (index / topics.length) * 2 * Math.PI;
+              const lineStart = calculatePoint(angle, centerRadius * 0.9);
+              const lineEnd = calculatePoint(angle, radius + outerRadius);
+              return (
+                <line
+                  key={`line-${index}`}
+                  x1={lineStart.x}
+                  y1={lineStart.y}
+                  x2={lineEnd.x}
+                  y2={lineEnd.y}
+                  stroke={theme.border}
+                  strokeWidth="2"
+                />
+              );
+            })}
+
+            {/* Centrale cirkel */}
+            {(() => {
+              const centerFill =
+                themeName === 'story' ? 'url(#centerGradient)' : theme.background;
+              const centerStroke =
+                themeName === 'story' ? '#a084e8' : theme.border;
+              const centerTextColor =
+                themeName === 'story' ? '#ffffff' : theme.secondary;
+
+              return (
+                <>
+                  <circle
+                    cx={center}
+                    cy={center}
+                    r={centerRadius}
+                    fill={centerFill}
+                    stroke={centerStroke}
+                    strokeWidth="3"
+                    onClick={() => handleClick('The (One and Only) True God')}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  <text
+                    x={center}
+                    y={center}
+                    textAnchor="middle"
+                    fill={centerTextColor}
+                    fontSize={centerRadius * 0.22}
+                    fontWeight="bold"
+                    dy=".3em"
+                    pointerEvents="none"
+                  >
+                    The One True God
+                  </text>
+                </>
+              );
+            })()}
+
+            {/* Buitenste cirkels + labels */}
+            {topics.map((topic, index) => {
+              const angle = (index / topics.length) * 2 * Math.PI;
+              const pos = calculatePoint(angle, radius);
+
+              const fillColor =
+                themeName === 'story' ? topic.color : theme.background;
+              const textColor =
+                themeName === 'story' ? '#ffffff' : theme.secondary;
+              const strokeColor =
+                themeName === 'story' ? topic.color : theme.border;
+
+              return (
+                <g
+                  key={`topic-${index}`}
+                  onClick={() => handleClick(topic.english)}
+                  className={themeName === 'story' ? 'transition-all duration-300 topic-hover' : ''}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <circle
+                    cx={pos.x}
+                    cy={pos.y}
+                    r={outerRadius}
+                    fill={fillColor}
+                    stroke={strokeColor}
                     strokeWidth="2"
                   />
-                );
-              })}
-
-              {/* Centrale cirkel */}
-              {(() => {
-                const centerFill =
-                  themeName === 'story' ? 'url(#centerGradient)' : theme.background;
-                const centerStroke =
-                  themeName === 'story' ? '#a084e8' : theme.border;
-                const centerTextColor =
-                  themeName === 'story' ? '#ffffff' : theme.secondary;
-
-                return (
-                  <>
-                    <circle
-                      cx={center}
-                      cy={center}
-                      r={centerRadius}
-                      fill={centerFill}
-                      stroke={centerStroke}
-                      strokeWidth="3"
-                      onClick={() => handleClick('The (One and Only) True God')}
-                      style={{ cursor: 'pointer' }}
-                    />
-                    <text
-                      x={center}
-                      y={center}
-                      textAnchor="middle"
-                      fill={centerTextColor}
-                      fontSize={centerRadius * 0.22}
-                      fontWeight="bold"
-                      dy=".3em"
-                      pointerEvents="none"
-                    >
-                      The One True God
-                    </text>
-                  </>
-                );
-              })()}
-
-              {/* Buitenste cirkels + labels */}
-              {topics.map((topic, index) => {
-                const angle = (index / topics.length) * 2 * Math.PI;
-                const pos = calculatePoint(angle, radius);
-
-                const fillColor =
-                  themeName === 'story' ? topic.color : theme.background;
-                const textColor =
-                  themeName === 'story' ? '#ffffff' : theme.secondary;
-                const strokeColor =
-                  themeName === 'story' ? topic.color : theme.border;
-
-                return (
-                  <g
-                    key={`topic-${index}`}
-                    onClick={() => handleClick(topic.english)}
-                    className={themeName === 'story' ? 'transition-all duration-300 topic-hover' : ''}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <circle
-                      cx={pos.x}
-                      cy={pos.y}
-                      r={outerRadius}
-                      fill={fillColor}
-                      stroke={strokeColor}
-                      strokeWidth="2"
-                    />
-                    {themeName === 'story' && (
-                      <text
-                        x={pos.x}
-                        y={pos.y - outerRadius * 0.5}
-                        textAnchor="middle"
-                        fill={textColor}
-                        fontSize={outerRadius * 0.24}
-                        dy="0"
-                      >
-                        {topic.icon}
-                      </text>
-                    )}
+                  {themeName === 'story' && (
                     <text
                       x={pos.x}
-                      y={pos.y}
+                      y={pos.y - outerRadius * 0.5}
                       textAnchor="middle"
                       fill={textColor}
-                      fontSize={outerRadius * 0.18}
-                      fontWeight="bold"
+                      fontSize={outerRadius * 0.24}
                       dy="0"
                     >
-                      {topic.english.split(' ')[0]}
+                      {topic.icon}
                     </text>
+                  )}
+                  <text
+                    x={pos.x}
+                    y={pos.y}
+                    textAnchor="middle"
+                    fill={textColor}
+                    fontSize={outerRadius * 0.18}
+                    fontWeight="bold"
+                    dy="0"
+                  >
+                    {topic.english.split(' ')[0]}
+                  </text>
+                  <text
+                    x={pos.x}
+                    y={pos.y + outerRadius * 0.25}
+                    textAnchor="middle"
+                    fill={textColor}
+                    fontSize={outerRadius * 0.14}
+                  >
+                    {topic.english.split(' ').slice(1).join(' ')}
+                  </text>
+                  {language === 'english_phonetic' && (
                     <text
                       x={pos.x}
-                      y={pos.y + outerRadius * 0.25}
+                      y={pos.y + outerRadius * 0.45}
                       textAnchor="middle"
                       fill={textColor}
-                      fontSize={outerRadius * 0.14}
+                      fontSize={outerRadius * 0.13}
                     >
-                      {topic.english.split(' ').slice(1).join(' ')}
+                      {topic.arabic}
                     </text>
-                    {language === 'english_phonetic' && (
-                      <text
-                        x={pos.x}
-                        y={pos.y + outerRadius * 0.45}
-                        textAnchor="middle"
-                        fill={textColor}
-                        fontSize={outerRadius * 0.13}
-                      >
-                        {topic.arabic}
-                      </text>
-                    )}
-                  </g>
-                );
-              })}
-            </svg>
-          </div>
-
-          <button
-            onClick={() => setView('settings')}
-            className="mt-6 px-4 py-2 text-sm sm:text-lg font-bold rounded-full transition-all duration-200 hover:scale-105"
-            style={{
-              border: `2px solid ${theme.secondary}`,
-              color: theme.secondary,
-              backgroundColor: 'transparent',
-            }}
-          >
-            ⚙️ Settings
-          </button>
+                  )}
+                </g>
+              );
+            })}
+          </svg>
         </div>
-      )}
 
-      {view === 'names' && (
+        <button
+          onClick={() => navigate('/settings')}
+          className="mt-6 px-4 py-2 text-sm sm:text-lg font-bold rounded-full transition-all duration-200 hover:scale-105"
+          style={{
+            border: `2px solid ${theme.secondary}`,
+            color: theme.secondary,
+            backgroundColor: 'transparent',
+          }}
+        >
+          ⚙️ Settings
+        </button>
+      </div>
+
+      {/* Remove all view state and conditional rendering for 'names', 'detail', etc. Only keep the wheel rendering for now. */}
+      {/* {view === 'names' && (
         <NamesOfAllah
           onBack={() => setView('wheel')}
           onNameClick={(name) => {
@@ -278,27 +278,27 @@ const WheelOfIslam = () => {
           }}
           language={language}
         />
-      )}
+      )} */}
 
-      {view === 'detail' && selectedName && (
+      {/* {view === 'detail' && selectedName && (
         <NameDetail
           name={selectedName}
           onBack={() => setView('names')}
           onMore={() => alert('More info coming soon')}
         />
-      )}
+      )} */}
 
-      {view === 'settings' && (
+      {/* {view === 'settings' && (
         <Settings
           language={language}
           setLanguage={setLanguage}
           onBack={() => setView('wheel')}
         />
-      )}
+      )} */}
 
-      {view === 'tazkiyyah' && (
+      {/* {view === 'tazkiyyah' && (
         <TazkiyyahLanding onBack={() => setView('wheel')} />
-      )}
+      )} */}
     </div>
   );
 };

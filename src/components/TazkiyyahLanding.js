@@ -1,7 +1,9 @@
 import React from 'react';
 import twoWingsImg from '../assets/thetwowings.png';
+import { useNavigate } from 'react-router-dom';
 
-const TazkiyyahLanding = ({ onBack }) => {
+const TazkiyyahLanding = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6">
       <img
@@ -18,7 +20,7 @@ const TazkiyyahLanding = ({ onBack }) => {
 
       <button
         className="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-6 rounded"
-        onClick={onBack}
+        onClick={() => navigate('/')}
       >
         🔙 Back to Wheel
       </button>
