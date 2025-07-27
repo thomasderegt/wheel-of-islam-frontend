@@ -21,8 +21,8 @@ Wheel of Islam (WOI) is designed to serve multiple user groups with different ne
 
 **Goal Modes:**
 - I'm experiencing doubts and looking for answers
-- I want to improve my practice of Islam and my connection with God
-- I just want to have a look around!
+- I want to improve my Islam and connection with God
+- I'm curious and want to have a look around!
 - I want to connect with other Muslim youth
 
 **Modules Available:**

@@ -65,8 +65,8 @@ export const USER_GROUPS = {
 export const GOAL_MODES = {
   GEN_Z: [
     { key: 'doubts', label: 'I\'m experiencing doubts and looking for answers' },
-    { key: 'improve', label: 'I want to improve my practice of Islam and my connection with God' },
-    { key: 'explore', label: 'I just want to have a look around!' },
+    { key: 'improve', label: 'I want to improve my Islam and connection with God' },
+    { key: 'explore', label: 'I\'m curious and want to have a look around!' },
     { key: 'community', label: 'I want to connect with other Muslim youth' }
   ],
   PARENTS: [

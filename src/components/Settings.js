@@ -74,9 +74,9 @@ const Settings = ({ isOpen, onClose, sharedGoal, setSharedGoal, sharedLevel, set
                 boxShadow: '0 0 5px #00f2fa'
               }}
             >
-              <option value="doubts">Doubts - I'm experiencing doubts</option>
-              <option value="explore">Explore - I want to explore</option>
-              <option value="improve">Improve - I want to improve</option>
+              <option value="doubts">Doubts - I'm experiencing doubts and looking for answers</option>
+              <option value="explore">Explore - I'm curious and want to have a look around!</option>
+              <option value="improve">Improve - I want to improve my Islam and connection with God</option>
             </select>
           </div>
           
@@ -130,7 +130,7 @@ const Settings = ({ isOpen, onClose, sharedGoal, setSharedGoal, sharedLevel, set
             >
               <option value="1">Maturidi/Ashari</option>
               <option value="2">Athari</option>
-              <option value="3">Don't mind, open to all</option>
+              <option value="3">Open to all</option>
             </select>
           </div>
           
@@ -160,7 +160,7 @@ const Settings = ({ isOpen, onClose, sharedGoal, setSharedGoal, sharedLevel, set
               <option value="hanbali">Hanbali</option>
               <option value="shafi">Shafi'i</option>
               <option value="maliki">Maliki</option>
-              <option value="all">Don't mind, open to all</option>
+              <option value="all">Open to all</option>
             </select>
           </div>
           

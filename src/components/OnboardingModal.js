@@ -63,8 +63,8 @@ const levelOptions = [
 
 const goalOptions = [
   { key: 'doubts', label: 'I\'m experiencing doubts and looking for answers' },
-  { key: 'explore', label: 'I just want to have a look around!' },
-  { key: 'improve', label: 'I want to improve my practice of Islam and my connection with God' },
+  { key: 'explore', label: 'I\'m curious and want to have a look around!' },
+  { key: 'improve', label: 'I want to improve my Islam and connection with God' },
 ];
 
 const creedOptions = [
@@ -191,7 +191,7 @@ export default function OnboardingModal({ open, onSelect, onLevelChange, selecte
             <option value="">Select creed...</option>
             <option value="1">Maturidi/Ashari</option>
             <option value="2">Athari</option>
-            <option value="3">Don't mind, open to all</option>
+                          <option value="3">Open to all</option>
           </select>
         </div>
         
@@ -212,17 +212,17 @@ export default function OnboardingModal({ open, onSelect, onLevelChange, selecte
           <select
             value={selectedJurisprudence}
             onChange={(e) => setSelectedJurisprudence(e.target.value)}
-            style={{
-              width: '100%',
+                style={{
+                  width: '100%',
               maxWidth: '400px',
               padding: '0.875rem',
               borderRadius: '8px',
               background: '#222',
-              color: '#fff',
+                  color: '#fff',
               border: '2px solid #444',
               fontSize: 'clamp(0.8rem, 2.5vw, 1rem)',
               cursor: 'pointer',
-              transition: 'all 0.2s',
+                  transition: 'all 0.2s',
             }}
             onMouseEnter={(e) => {
               e.target.style.borderColor = '#00f2fa';
@@ -238,7 +238,7 @@ export default function OnboardingModal({ open, onSelect, onLevelChange, selecte
             <option value="hanbali">Hanbali</option>
             <option value="shafi">Shafi'i</option>
             <option value="maliki">Maliki</option>
-            <option value="all">Don't mind, open to all</option>
+                          <option value="all">Open to all</option>
           </select>
         </div>
         
@@ -274,12 +274,12 @@ export default function OnboardingModal({ open, onSelect, onLevelChange, selecte
             onMouseEnter={(e) => {
               e.target.style.borderColor = '#00f2fa';
               e.target.style.boxShadow = '0 0 8px 2px #00f2fa';
-            }}
+                }}
             onMouseLeave={(e) => {
               e.target.style.borderColor = '#444';
               e.target.style.boxShadow = 'none';
-            }}
-          >
+                }}
+              >
             <option value="">Select theme...</option>
             <option value="neon">Neon (default) - Modern digital</option>
             <option value="story">Story - Warm and cozy</option>
