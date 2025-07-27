@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useStrategy, USER_GROUPS } from '../context/StrategyContext';
+import { useTheme } from '../context/ThemeContext';
 
 const modalStyle = {
   position: 'fixed',
@@ -61,15 +62,32 @@ const levelOptions = [
 ];
 
 const goalOptions = [
-  { key: 'Doubts', label: 'I\'m experiencing doubts and looking for answers' },
-  { key: 'Explore', label: 'I just want to have a look around!' },
-  { key: 'Improve', label: 'I want to improve my practice of Islam and my connection with God' },
+  { key: 'doubts', label: 'I\'m experiencing doubts and looking for answers' },
+  { key: 'explore', label: 'I just want to have a look around!' },
+  { key: 'improve', label: 'I want to improve my practice of Islam and my connection with God' },
+];
+
+const creedOptions = [
+  { key: '3', label: 'All' },
+  { key: '1', label: 'Maturidi/Ashari' },
+  { key: '2', label: 'Athari' },
+];
+
+const jurisprudenceOptions = [
+  { key: 'all', label: 'All' },
+  { key: 'hanafi', label: 'Hanafi' },
+  { key: 'hanbali', label: 'Hanbali' },
+  { key: 'shafi', label: 'Shafi\'i' },
+  { key: 'maliki', label: 'Maliki' },
 ];
 
 export default function OnboardingModal({ open, onSelect, onLevelChange, selectedLevel }) {
   // Set localLevel to null initially so user must select a level
-  const [localLevel, setLocalLevel] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState(null);
+  const [selectedCreed, setSelectedCreed] = useState('');
+  const [selectedJurisprudence, setSelectedJurisprudence] = useState('');
+  const [selectedTheme, setSelectedTheme] = useState('');
+  const { setThemeName } = useTheme();
 
   if (!open) return null;
   return (
@@ -91,7 +109,7 @@ export default function OnboardingModal({ open, onSelect, onLevelChange, selecte
           fontSize: 'clamp(1rem, 3vw, 1.25rem)',
           lineHeight: '1.3'
         }}>
-          Please select a goal and level
+          Please select your goal, creed, and jurisprudence
         </p>
         <div style={{ 
           color: '#fff', 
@@ -131,87 +149,169 @@ export default function OnboardingModal({ open, onSelect, onLevelChange, selecte
             </button>
           ))}
         </div>
+        
+        {/* Creed Section */}
         <div style={{ 
           margin: '1.5rem 0 0.75rem', 
           color: '#fff', 
           fontWeight: 'bold',
           fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)'
         }}>
-          Level
+          Creed
         </div>
         <div style={{ 
           display: 'flex', 
           justifyContent: 'center', 
-          flexDirection: 'column', 
-          alignItems: 'center', 
-          gap: '0.75rem', 
           marginBottom: '1.5rem' 
         }}>
-          {levelOptions.map(opt => {
-            const isSelected = localLevel === opt.key;
-            let background = 'transparent';
-            let border = isSelected ? `2px solid ${opt.color}` : '2px solid #444';
-            let boxShadow = isSelected ? `0 0 8px 2px ${opt.color}` : 'none';
-            if (isSelected) {
-              background = 'transparent';
-              border = '2px solid #00f2fa';
-              boxShadow = '0 0 8px 2px #00f2fa, 0 0 16px 4px #00f2fa';
-            }
-            return (
-              <button
-                key={opt.key}
-                style={{
-                  ...buttonStyle,
-                  width: '100%',
-                  maxWidth: '200px',
-                  minHeight: '50px',
-                  border,
-                  background,
-                  boxShadow,
-                  fontWeight: isSelected ? 'bold' : 'normal',
-                  color: '#fff',
-                  transition: 'all 0.2s',
-                  fontSize: 'clamp(0.9rem, 2.5vw, 1rem)',
-                }}
-                onClick={() => {
-                  setLocalLevel(opt.key);
-                  if (onLevelChange) onLevelChange(opt.key);
-                }}
-                onMouseEnter={e => {
-                  if (isSelected) {
-                    e.currentTarget.style.background = 'transparent';
-                  } else {
-                    e.currentTarget.style.background = '#333';
-                  }
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'transparent';
-                }}
-              >
-                {opt.label}
-              </button>
-            );
-          })}
+          <select
+            value={selectedCreed}
+            onChange={(e) => setSelectedCreed(e.target.value)}
+            style={{
+              width: '100%',
+              maxWidth: '400px',
+              padding: '0.875rem',
+              borderRadius: '8px',
+              background: '#222',
+              color: '#fff',
+              border: '2px solid #444',
+              fontSize: 'clamp(0.8rem, 2.5vw, 1rem)',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.borderColor = '#00f2fa';
+              e.target.style.boxShadow = '0 0 8px 2px #00f2fa';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.borderColor = '#444';
+              e.target.style.boxShadow = 'none';
+            }}
+          >
+            <option value="">Select creed...</option>
+            <option value="1">Maturidi/Ashari</option>
+            <option value="2">Athari</option>
+            <option value="3">Don't mind, open to all</option>
+          </select>
         </div>
+        
+        {/* Jurisprudence Section */}
+        <div style={{ 
+          margin: '1.5rem 0 0.75rem', 
+          color: '#fff', 
+          fontWeight: 'bold',
+          fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)'
+        }}>
+          Jurisprudence
+        </div>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          marginBottom: '1.5rem' 
+        }}>
+          <select
+            value={selectedJurisprudence}
+            onChange={(e) => setSelectedJurisprudence(e.target.value)}
+            style={{
+              width: '100%',
+              maxWidth: '400px',
+              padding: '0.875rem',
+              borderRadius: '8px',
+              background: '#222',
+              color: '#fff',
+              border: '2px solid #444',
+              fontSize: 'clamp(0.8rem, 2.5vw, 1rem)',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.borderColor = '#00f2fa';
+              e.target.style.boxShadow = '0 0 8px 2px #00f2fa';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.borderColor = '#444';
+              e.target.style.boxShadow = 'none';
+            }}
+          >
+            <option value="">Select jurisprudence...</option>
+            <option value="hanafi">Hanafi</option>
+            <option value="hanbali">Hanbali</option>
+            <option value="shafi">Shafi'i</option>
+            <option value="maliki">Maliki</option>
+            <option value="all">Don't mind, open to all</option>
+          </select>
+        </div>
+        
+        {/* Theme Section */}
+        <div style={{ 
+          margin: '1.5rem 0 0.75rem', 
+          color: '#fff', 
+          fontWeight: 'bold',
+          fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)'
+        }}>
+          Theme
+        </div>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          marginBottom: '1.5rem' 
+        }}>
+          <select
+            value={selectedTheme || 'neon'}
+            onChange={(e) => setSelectedTheme(e.target.value)}
+            style={{
+              width: '100%',
+              maxWidth: '400px',
+              padding: '0.875rem',
+              borderRadius: '8px',
+              background: '#222',
+              color: '#fff',
+              border: '2px solid #444',
+              fontSize: 'clamp(0.8rem, 2.5vw, 1rem)',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.borderColor = '#00f2fa';
+              e.target.style.boxShadow = '0 0 8px 2px #00f2fa';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.borderColor = '#444';
+              e.target.style.boxShadow = 'none';
+            }}
+          >
+            <option value="">Select theme...</option>
+            <option value="neon">Neon (default) - Modern digital</option>
+            <option value="story">Story - Warm and cozy</option>
+          </select>
+        </div>
+        
         <button
           style={{
             ...buttonStyle,
             width: '100%',
             maxWidth: '200px',
             margin: '1rem auto 0',
-            background: selectedGoal && localLevel ? '#00f2fa' : '#444',
-            color: selectedGoal && localLevel ? '#111' : '#888',
+            background: selectedGoal && selectedCreed && selectedJurisprudence ? '#00f2fa' : '#444',
+            color: selectedGoal && selectedCreed && selectedJurisprudence ? '#111' : '#888',
             border: 'none',
             fontWeight: 'bold',
-            cursor: selectedGoal && localLevel ? 'pointer' : 'not-allowed',
-            opacity: selectedGoal && localLevel ? 1 : 0.7,
+            cursor: selectedGoal && selectedCreed && selectedJurisprudence ? 'pointer' : 'not-allowed',
+            opacity: selectedGoal && selectedCreed && selectedJurisprudence ? 1 : 0.7,
             transition: 'background 0.2s, color 0.2s, opacity 0.2s',
             display: 'block',
             fontSize: 'clamp(0.9rem, 2.5vw, 1rem)',
             minHeight: '50px',
           }}
-          disabled={!(selectedGoal && localLevel)}
-          onClick={() => onSelect(selectedGoal)}
+          disabled={!(selectedGoal && selectedCreed && selectedJurisprudence)}
+                      onClick={() => {
+              // Save creed and jurisprudence settings
+              localStorage.setItem('userCreed', selectedCreed);
+              localStorage.setItem('userJurisprudence', selectedJurisprudence);
+              localStorage.setItem('theme', selectedTheme);
+              setThemeName(selectedTheme);
+              onSelect(selectedGoal);
+            }}
         >
           Lets go!
         </button>
@@ -221,7 +321,7 @@ export default function OnboardingModal({ open, onSelect, onLevelChange, selecte
           color: '#888',
           lineHeight: '1.4'
         }}>
-          You can always change your goal or level later in settings.
+          You can always change your preferences later in settings.
         </p>
       </div>
     </div>

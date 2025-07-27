@@ -82,17 +82,17 @@ const WheelOfIslam = () => {
   const activeLevel = sharedLevel || userLevel;
   
   switch (activeGoal) {
-    case 'Doubts':
+    case 'doubts':
       topics = askTopics;
       wheelTitle = 'Wheel of Islam';
       wheelSubtitle = `Address Doubts - Level ${activeLevel}`;
       break;
-    case 'Explore':
+    case 'explore':
       topics = exploreTopics;
       wheelTitle = 'Wheel of Islam';
       wheelSubtitle = `Explore & Discover - Level ${activeLevel}`;
       break;
-    case 'Improve':
+    case 'improve':
       topics = improveTopics;
       wheelTitle = 'Wheel of Islam';
       wheelSubtitle = `Grow & Improve - Level ${activeLevel}`;
@@ -464,7 +464,7 @@ const WheelOfIslam = () => {
         </div>
 
 
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center gap-4 mt-4">
           <button 
             onClick={() => setIsPropertiesPanelOpen(true)}
             className="px-3 py-1.5 text-xs rounded border transition-all duration-200 active:scale-95"
@@ -493,6 +493,36 @@ const WheelOfIslam = () => {
             }}
           >
             Settings
+          </button>
+          
+          <button 
+            onClick={handleResetOnboarding}
+            className="px-3 py-1.5 text-xs rounded border transition-all duration-200 active:scale-95"
+            style={{
+              color: '#FF007F',
+              borderColor: '#FF007F',
+              backgroundColor: 'transparent',
+              width: '80px',
+              boxShadow: '0 0 8px #FF007F, 0 0 16px #FF007F'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = 'rgba(255, 0, 127, 0.1)';
+              e.target.style.boxShadow = '0 0 15px #FF007F, 0 0 30px #FF007F, inset 0 0 10px rgba(255, 0, 127, 0.3)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = 'transparent';
+              e.target.style.boxShadow = '0 0 10px #FF007F, 0 0 20px #FF007F';
+            }}
+            onMouseDown={(e) => {
+              e.target.style.transform = 'scale(0.95)';
+              e.target.style.boxShadow = '0 0 5px #FF007F, 0 0 10px #FF007F, inset 0 0 15px rgba(255, 0, 127, 0.5)';
+            }}
+            onMouseUp={(e) => {
+              e.target.style.transform = 'scale(1)';
+              e.target.style.boxShadow = '0 0 15px #FF007F, 0 0 30px #FF007F, inset 0 0 10px rgba(255, 0, 127, 0.3)';
+            }}
+          >
+            Reset
           </button>
         </div>
       </div>

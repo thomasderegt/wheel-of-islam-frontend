@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const Settings = ({ isOpen, onClose, sharedGoal, setSharedGoal, sharedLevel, setSharedLevel }) => {
+  const [creed, setCreed] = useState(localStorage.getItem('userCreed') || '1');
+  const [jurisprudence, setJurisprudence] = useState(localStorage.getItem('userJurisprudence') || 'all');
+  const { themeName, setThemeName } = useTheme();
+  const { language, setLanguage } = useLanguage();
+  
   if (!isOpen) return null;
 
   return (
@@ -67,9 +74,9 @@ const Settings = ({ isOpen, onClose, sharedGoal, setSharedGoal, sharedLevel, set
                 boxShadow: '0 0 5px #00f2fa'
               }}
             >
-              <option value="Doubts">I'm experiencing doubts</option>
-              <option value="Explore">I want to explore</option>
-              <option value="Improve">I want to improve</option>
+              <option value="doubts">Doubts - I'm experiencing doubts</option>
+              <option value="explore">Explore - I want to explore</option>
+              <option value="improve">Improve - I want to improve</option>
             </select>
           </div>
           
@@ -96,6 +103,118 @@ const Settings = ({ isOpen, onClose, sharedGoal, setSharedGoal, sharedLevel, set
               }}
             >
               <option value={1}>Level 1 - Novice</option>
+            </select>
+          </div>
+          
+          {/* Creed Setting */}
+          <div>
+            <label 
+              className="block text-sm font-medium mb-2"
+              style={{ color: '#00f2fa', textShadow: '0 0 5px #00f2fa' }}
+            >
+              Creed
+            </label>
+                        <select
+              value={creed}
+              onChange={(e) => {
+                setCreed(e.target.value);
+                localStorage.setItem('userCreed', e.target.value);
+              }}
+              className="w-full p-3 rounded border-2 transition-all duration-200"
+              style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                borderColor: '#00f2fa',
+                color: '#00f2fa',
+                boxShadow: '0 0 5px #00f2fa'
+              }}
+            >
+              <option value="1">Maturidi/Ashari</option>
+              <option value="2">Athari</option>
+              <option value="3">Don't mind, open to all</option>
+            </select>
+          </div>
+          
+          {/* Jurisprudence Setting */}
+          <div>
+            <label 
+              className="block text-sm font-medium mb-2"
+              style={{ color: '#00f2fa', textShadow: '0 0 5px #00f2fa' }}
+            >
+              Jurisprudence
+            </label>
+            <select 
+              value={jurisprudence}
+              onChange={(e) => {
+                setJurisprudence(e.target.value);
+                localStorage.setItem('userJurisprudence', e.target.value);
+              }}
+              className="w-full p-3 rounded border-2 transition-all duration-200"
+              style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                borderColor: '#00f2fa',
+                color: '#00f2fa',
+                boxShadow: '0 0 5px #00f2fa'
+              }}
+            >
+              <option value="hanafi">Hanafi</option>
+              <option value="hanbali">Hanbali</option>
+              <option value="shafi">Shafi'i</option>
+              <option value="maliki">Maliki</option>
+              <option value="all">Don't mind, open to all</option>
+            </select>
+          </div>
+          
+          {/* Language Setting */}
+          <div>
+            <label 
+              className="block text-sm font-medium mb-2"
+              style={{ color: '#00f2fa', textShadow: '0 0 5px #00f2fa' }}
+            >
+              Language
+            </label>
+            <select 
+              value={language}
+              onChange={(e) => {
+                setLanguage(e.target.value);
+                localStorage.setItem('language', e.target.value);
+              }}
+              className="w-full p-3 rounded border-2 transition-all duration-200"
+              style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                borderColor: '#00f2fa',
+                color: '#00f2fa',
+                boxShadow: '0 0 5px #00f2fa'
+              }}
+            >
+              <option value="english">English</option>
+              <option value="phonetic">Phonetic</option>
+            </select>
+          </div>
+          
+          {/* Theme Setting */}
+          <div>
+            <label 
+              className="block text-sm font-medium mb-2"
+              style={{ color: '#00f2fa', textShadow: '0 0 5px #00f2fa' }}
+            >
+              Theme
+            </label>
+            <select 
+              value={themeName}
+              onChange={(e) => {
+                setThemeName(e.target.value);
+                localStorage.setItem('theme', e.target.value);
+              }}
+              className="w-full p-3 rounded border-2 transition-all duration-200"
+              style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                borderColor: '#00f2fa',
+                color: '#00f2fa',
+                boxShadow: '0 0 5px #00f2fa'
+              }}
+            >
+              <option value="neon">Neon</option>
+              <option value="story">Story</option>
             </select>
           </div>
           
