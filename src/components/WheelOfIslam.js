@@ -116,9 +116,9 @@ const WheelOfIslam = () => {
   }, []);
 
   const center = size / 2;
-  const radius = center * 0.65;
-  const outerRadius = center * 0.16;
-  const centerRadius = center * 0.22;
+  const radius = center * 0.7;
+  const outerRadius = center * 0.18;
+  const centerRadius = center * 0.25;
 
   const calculatePoint = (angle, distance) => ({
     x: center + distance * Math.cos(angle),
@@ -151,7 +151,7 @@ const WheelOfIslam = () => {
   };
 
   // Use a fixed font size for all topic titles (outer circles)
-  const topicFontSize = outerRadius * 0.16;
+  const topicFontSize = outerRadius * 0.18;
   // Calculate font size for center title to fit within the center circle
   const getCenterFontSize = (text) => {
     const base = centerRadius * 0.22;
@@ -209,12 +209,7 @@ const WheelOfIslam = () => {
         <div
           ref={svgRef}
           className="w-full aspect-square mx-auto flex items-center justify-center"
-          style={{ 
-            maxWidth: 'min(100vw, 600px)', 
-            width: 'min(100vw, 600px)', 
-            padding: '0 16px',
-            margin: '0 auto'
-          }}
+          style={{ maxWidth: '100vw', width: '100vw', padding: '0 8px' }}
         >
           <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full">
             {/* Radial gradient (Story only) */}
