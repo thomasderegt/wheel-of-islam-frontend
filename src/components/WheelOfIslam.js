@@ -8,14 +8,49 @@ import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 
-const topics = [
+// Goal-based topic configurations
+const askTopics = [
+  { english: 'Evidence', arabic: 'Adillah', color: '#8E7DBE', icon: '🔍' },
+  { english: 'Common Questions', arabic: 'As\'ilah', color: '#F4A261', icon: '❓' },
+  { english: 'Misconceptions', arabic: 'Su\' al-Mafahim', color: '#2A9D8F', icon: '💭' },
+  { english: 'Scientific Proofs', arabic: 'Al-Burhan Al-Ilmi', color: '#E76F51', icon: '🧬' },
+  { english: 'Historical Evidence', arabic: 'Al-Burhan Al-Tarikhi', color: '#E9C46A', icon: '📚' },
+  { english: 'Logical Arguments', arabic: 'Al-Hujaj Al-Mantiqiyyah', color: '#A26769', icon: '🧠' },
+  { english: 'Community Support', arabic: 'Al-Ta\'awun', color: '#6C91BF', icon: '🤝' },
+  { english: 'Personal Journey', arabic: 'Al-Rihlah Al-Shakhsiyyah', color: '#B5838D', icon: '🌟' },
+];
+
+const exploreTopics = [
+  { english: 'Purification', arabic: 'Tazkiyyah', color: '#8E7DBE', icon: '💖' },
+  { english: 'Prophets', arabic: 'Al-Anbiya\'', color: '#F4A261', icon: '📖' },
+  { english: 'Islamic History', arabic: 'At-Tarikh', color: '#2A9D8F', icon: '🏛️' },
+  { english: 'Islamic Art', arabic: 'Al-Fann', color: '#E76F51', icon: '🎨' },
+  { english: 'Islamic Science', arabic: 'Al-Ulum', color: '#E9C46A', icon: '🔬' },
+  { english: 'Islamic Philosophy', arabic: 'Al-Falsafah', color: '#A26769', icon: '🧠' },
+  { english: 'Islamic Literature', arabic: 'Al-Adab', color: '#6C91BF', icon: '📚' },
+  { english: 'Islamic Architecture', arabic: 'Al-Mi\'mar', color: '#B5838D', icon: '🕌' },
+];
+
+const improveTopics = [
+  { english: 'Prayer', arabic: 'As-Salah', color: '#8E7DBE', icon: '🕌' },
+  { english: 'Fasting', arabic: 'As-Sawm', color: '#F4A261', icon: '🌙' },
+  { english: 'Charity', arabic: 'Az-Zakah', color: '#2A9D8F', icon: '🤲' },
+  { english: 'Pilgrimage', arabic: 'Al-Hajj', color: '#E76F51', icon: '🕋' },
+  { english: 'Good Character', arabic: 'Al-Akhlaq', color: '#E9C46A', icon: '💎' },
+  { english: 'Family', arabic: 'Al-Usrah', color: '#A26769', icon: '👨‍👩‍👧‍👦' },
+  { english: 'Community', arabic: 'Al-Jama\'ah', color: '#6C91BF', icon: '🤝' },
+  { english: 'Daily Dhikr', arabic: 'Adh-Dhikr', color: '#B5838D', icon: '📿' },
+];
+
+// Default topics (fallback)
+const defaultTopics = [
   { english: 'Purification', arabic: 'Tazkiyyah', color: '#8E7DBE', icon: '💖' },
   { english: 'Divine Law', arabic: 'Sharia', color: '#F4A261', icon: '⚖️' },
   { english: 'Revelation', arabic: "Qur'an", color: '#2A9D8F', icon: '📖' },
   { english: 'Prophetic Guidance', arabic: 'Hadith & Sunnah', color: '#E76F51', icon: '🕊️' },
   { english: 'Worship', arabic: 'Al Ibadah', color: '#E9C46A', icon: '🙏' },
   { english: 'Afterlife', arabic: 'Akhirah', color: '#A26769', icon: '🌅' },
-  { english: 'Prophets', arabic: 'Anbiya', color: '#6C91BF', icon: '��' },
+  { english: 'Prophets', arabic: 'Anbiya', color: '#6C91BF', icon: '' },
   { english: 'Unseen', arabic: 'Al-Ghayb', color: '#B5838D', icon: '✨' },
 ];
 
@@ -26,6 +61,34 @@ const WheelOfIslam = () => {
   const { theme, themeName } = useTheme();
   const { language } = useLanguage();
   const navigate = useNavigate();
+
+  // Get user's goal and determine topics
+  const userGoal = localStorage.getItem('userGoal');
+  let topics;
+  let wheelTitle;
+  let wheelSubtitle;
+
+  switch (userGoal) {
+    case 'doubts':
+      topics = askTopics;
+      wheelTitle = 'Wheel of Islam';
+      wheelSubtitle = 'Find Answers';
+      break;
+    case 'explore':
+      topics = exploreTopics;
+      wheelTitle = 'Wheel of Islam';
+      wheelSubtitle = 'Explore & Discover';
+      break;
+    case 'improve':
+      topics = improveTopics;
+      wheelTitle = 'Wheel of Islam';
+      wheelSubtitle = 'Grow & Improve';
+      break;
+    default:
+      topics = defaultTopics;
+      wheelTitle = 'Wheel of Islam';
+      wheelSubtitle = 'Your Digital Guide';
+  }
 
   useLayoutEffect(() => {
     const updateSize = () => {
@@ -57,7 +120,19 @@ const WheelOfIslam = () => {
     } else if (topic === 'Purification') {
       navigate('/tazkiyyah');
     } else {
-      alert('Coming soon!');
+      // Show different messages based on user goal
+      const userGoal = localStorage.getItem('userGoal');
+      let message = 'Coming soon!';
+      
+      if (userGoal === 'doubts') {
+        message = 'This section will help you find evidence and answers to your questions. Coming soon!';
+      } else if (userGoal === 'explore') {
+        message = 'This section will help you explore and discover new aspects of Islam. Coming soon!';
+      } else if (userGoal === 'improve') {
+        message = 'This section will help you improve your practice and build better habits. Coming soon!';
+      }
+      
+      alert(message);
     }
   };
 
@@ -108,13 +183,13 @@ const WheelOfIslam = () => {
           className="text-3xl sm:text-5xl font-bold text-center"
           style={{ color: theme.secondary, textShadow: '0 0 6px #00f2fa', marginBottom: 0 }}
         >
-          Wheel of Islam
+          {wheelTitle}
         </h1>
         <div
           className="text-base sm:text-2xl font-semibold text-center mb-6"
           style={{ color: theme.secondary, textShadow: '0 0 6px #00f2fa', marginTop: 4 }}
         >
-          Your Digital Guide
+          {wheelSubtitle}
         </div>
 
         <div
@@ -283,9 +358,32 @@ const WheelOfIslam = () => {
           ⚙️ Settings
         </button>
         <button onClick={() => { localStorage.removeItem('userGoal'); window.location.reload(); }}>
-  Reset Onboarding
-</button>
+          Reset Onboarding
+        </button>
       </div>
+
+      {/* Floating AI Companion Button */}
+      {userGoal && (
+        <button
+          onClick={() => {
+            const messages = {
+              doubts: "Hey! How are you? 👋\n\nI'm here to answer your questions about Islam.\nNo judgment, no pressure - just honest, helpful answers.\n\nWhat's on your mind?",
+              explore: "Ready to discover? Let's explore together! 🌟\n\nI'm here to guide your learning journey through Islam.\nLet's find the perfect topics for you to explore!",
+              improve: "Ready to grow? Let's build better habits! 🎯\n\nI'm here to help you set goals, track progress, and improve your practice.\nWhat area would you like to focus on first?"
+            };
+            alert(messages[userGoal] || "Hello! How can I help you today?");
+          }}
+          className="fixed bottom-6 right-6 w-16 h-16 rounded-full text-white font-bold text-lg shadow-lg transition-all duration-200 hover:scale-110 hover:shadow-xl"
+          style={{
+            backgroundColor: theme.secondary,
+            border: `2px solid ${theme.secondary}`,
+            boxShadow: `0 4px 12px rgba(0, 242, 250, 0.3)`,
+            zIndex: 1000,
+          }}
+        >
+          {userGoal === 'doubts' ? '❓' : userGoal === 'explore' ? '🌟' : '🎯'}
+        </button>
+      )}
 
       {/* Remove all view state and conditional rendering for 'names', 'detail', etc. Only keep the wheel rendering for now. */}
       {/* {view === 'names' && (
