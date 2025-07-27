@@ -2,7 +2,7 @@ import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import NamesOfAllah from './NamesOfAllah';
 import NameDetail from './NameDetail';
 import TazkiyyahLanding from './TazkiyyahLanding';
-import PropertiesPanel from './PropertiesPanel';
+import Settings from './Settings';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
@@ -170,8 +170,6 @@ const WheelOfIslam = () => {
         // backgroundColor: theme.background, // Removed to allow background image to show
         color: theme.text,
         fontFamily: themeName === 'story' ? `'Poppins', sans-serif` : 'inherit',
-        transform: isPropertiesPanelOpen ? 'translateX(-200px)' : 'translateX(0)',
-        transition: 'transform 0.3s ease-in-out',
       }}
     >
       <style jsx>{`
@@ -257,7 +255,7 @@ const WheelOfIslam = () => {
             {/* Centrale cirkel */}
             {(() => {
               const centerFill =
-                themeName === 'story' ? 'url(#centerGradient)' : 'transparent';
+                themeName === 'story' ? 'url(#centerGradient)' : theme.background;
               const centerStroke =
                 themeName === 'story' ? '#a084e8' : theme.border;
               const centerTextColor =
@@ -341,7 +339,7 @@ const WheelOfIslam = () => {
               const pos = calculatePoint(angle, radius * 0.86);
 
               const fillColor =
-                themeName === 'story' ? topic.color : 'transparent';
+                themeName === 'story' ? topic.color : theme.background;
               const textColor =
                 themeName === 'story' ? '#ffffff' : theme.secondary;
               const strokeColor =
@@ -466,12 +464,37 @@ const WheelOfIslam = () => {
         </div>
 
 
-        <button 
-          onClick={handleResetOnboarding}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 mt-4"
-        >
-          Reset Onboarding
-        </button>
+        <div className="flex justify-center mt-4">
+          <button 
+            onClick={() => setIsPropertiesPanelOpen(true)}
+            className="px-6 py-3 text-base rounded-lg border-2 transition-all duration-200 active:scale-95"
+            style={{
+              color: '#00f2fa',
+              borderColor: '#00f2fa',
+              backgroundColor: 'transparent',
+              width: '200px',
+              boxShadow: '0 0 10px #00f2fa, 0 0 20px #00f2fa'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = 'rgba(0, 242, 250, 0.1)';
+              e.target.style.boxShadow = '0 0 15px #00f2fa, 0 0 30px #00f2fa, inset 0 0 10px rgba(0, 242, 250, 0.3)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = 'transparent';
+              e.target.style.boxShadow = '0 0 10px #00f2fa, 0 0 20px #00f2fa';
+            }}
+            onMouseDown={(e) => {
+              e.target.style.transform = 'scale(0.95)';
+              e.target.style.boxShadow = '0 0 5px #00f2fa, 0 0 10px #00f2fa, inset 0 0 15px rgba(0, 242, 250, 0.5)';
+            }}
+            onMouseUp={(e) => {
+              e.target.style.transform = 'scale(1)';
+              e.target.style.boxShadow = '0 0 15px #00f2fa, 0 0 30px #00f2fa, inset 0 0 10px rgba(0, 242, 250, 0.3)';
+            }}
+          >
+            Settings
+          </button>
+        </div>
       </div>
 
       {/* Floating AI Companion Button */}
@@ -529,9 +552,9 @@ const WheelOfIslam = () => {
         <TazkiyyahLanding onBack={() => setView('wheel')} />
       )} */}
 
-      {/* Properties Panel */}
-      <PropertiesPanel 
-        isOpen={isPropertiesPanelOpen} 
+            {/* Settings Component */}
+      <Settings 
+        isOpen={isPropertiesPanelOpen}
         onClose={() => setIsPropertiesPanelOpen(false)}
         sharedGoal={sharedGoal}
         setSharedGoal={setSharedGoal}
