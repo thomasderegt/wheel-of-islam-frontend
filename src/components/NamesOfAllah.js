@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import ProgressBar from './ProgressBar';
 
 const NamesOfAllah = () => {
   const navigate = useNavigate();
@@ -17,12 +18,14 @@ const NamesOfAllah = () => {
   ];
 
   return (
-    <div className="p-6 text-center">
-
+    <div className="min-h-screen p-6 text-center text-white">
       {/* Titel van de tabel */}
-      <h2 className="text-3xl mb-6 font-bold" style={{ color: '#FF007F' }}>
+      <h2 className="text-3xl mb-2 font-bold" style={{ color: '#00f2fa', textShadow: '0 0 10px #00f2fa, 0 0 20px #00f2fa' }}>
         The Names of The One True God
       </h2>
+      <p className="text-lg mb-6" style={{ color: '#00f2fa' }}>
+        Press a name to learn more
+      </p>
 
       {/* Namen Tabel */}
       <div className="grid grid-cols-2 gap-0">
@@ -46,13 +49,77 @@ const NamesOfAllah = () => {
         ))}
       </div>
 
-      {/* Terug knop */}
-      <button
-        onClick={() => navigate(-1)}
-        className="mt-4 px-4 py-2 border-2 border-teal-400 text-teal-400 rounded-full hover:bg-teal-700 hover:text-white"
-      >
-        Back to Wheel
-      </button>
+      {/* Navigation Buttons */}
+      <div className="flex flex-col gap-4 justify-center items-center mt-12 mb-12">
+        <button
+          onClick={() => alert('Coming soon')}
+          className="px-6 py-3 text-base rounded-lg border-2 transition-all duration-200 active:scale-95"
+          style={{
+            color: '#00f2fa',
+            borderColor: '#00f2fa',
+            backgroundColor: 'transparent',
+            width: '200px',
+            boxShadow: '0 0 10px #00f2fa, 0 0 20px #00f2fa'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = 'rgba(0, 242, 250, 0.1)';
+            e.target.style.boxShadow = '0 0 15px #00f2fa, 0 0 30px #00f2fa, inset 0 0 10px rgba(0, 242, 250, 0.3)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = 'transparent';
+            e.target.style.boxShadow = '0 0 10px #00f2fa, 0 0 20px #00f2fa';
+          }}
+          onMouseDown={(e) => {
+            e.target.style.transform = 'scale(0.95)';
+            e.target.style.boxShadow = '0 0 5px #00f2fa, 0 0 10px #00f2fa, inset 0 0 15px rgba(0, 242, 250, 0.5)';
+          }}
+          onMouseUp={(e) => {
+            e.target.style.transform = 'scale(1)';
+            e.target.style.boxShadow = '0 0 15px #00f2fa, 0 0 30px #00f2fa, inset 0 0 10px rgba(0, 242, 250, 0.3)';
+          }}
+        >
+          Quiz
+        </button>
+        
+        <button
+          onClick={() => navigate('/one-true-god')}
+          className="px-6 py-3 text-base rounded-lg border-2 transition-all duration-200 active:scale-95"
+          style={{
+            color: '#FF007F',
+            borderColor: '#FF007F',
+            backgroundColor: 'transparent',
+            width: '200px',
+            boxShadow: '0 0 10px #FF007F, 0 0 20px #FF007F'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = 'rgba(255, 0, 127, 0.1)';
+            e.target.style.boxShadow = '0 0 15px #FF007F, 0 0 30px #FF007F, inset 0 0 10px rgba(255, 0, 127, 0.3)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = 'transparent';
+            e.target.style.boxShadow = '0 0 10px #FF007F, 0 0 20px #FF007F';
+          }}
+          onMouseDown={(e) => {
+            e.target.style.transform = 'scale(0.95)';
+            e.target.style.boxShadow = '0 0 5px #FF007F, 0 0 10px #FF007F, inset 0 0 15px rgba(255, 0, 127, 0.5)';
+          }}
+          onMouseUp={(e) => {
+            e.target.style.transform = 'scale(1)';
+            e.target.style.boxShadow = '0 0 15px #FF007F, 0 0 30px #FF007F, inset 0 0 10px rgba(255, 0, 127, 0.3)';
+          }}
+        >
+          Back to Introduction
+        </button>
+      </div>
+
+      {/* Progress Bar */}
+      <div className="mt-8">
+        <ProgressBar 
+          currentStep={3} 
+          totalSteps={4} 
+          steps={['Topic', 'Introduction', 'Overview', 'Detail']} 
+        />
+      </div>
     </div>
   );
 };

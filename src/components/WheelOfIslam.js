@@ -1,93 +1,106 @@
-// zelfde imports als voorheen
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import NamesOfAllah from './NamesOfAllah';
 import NameDetail from './NameDetail';
-import Settings from './Settings';
 import TazkiyyahLanding from './TazkiyyahLanding';
+import PropertiesPanel from './PropertiesPanel';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 
 // Goal-based topic configurations
 const askTopics = [
-  { english: 'Evidence', arabic: 'Adillah', color: '#8E7DBE', icon: '🔍' },
-  { english: 'Common Questions', arabic: 'As\'ilah', color: '#F4A261', icon: '❓' },
-  { english: 'Misconceptions', arabic: 'Su\' al-Mafahim', color: '#2A9D8F', icon: '💭' },
-  { english: 'Scientific Proofs', arabic: 'Al-Burhan Al-Ilmi', color: '#E76F51', icon: '🧬' },
-  { english: 'Historical Evidence', arabic: 'Al-Burhan Al-Tarikhi', color: '#E9C46A', icon: '📚' },
-  { english: 'Logical Arguments', arabic: 'Al-Hujaj Al-Mantiqiyyah', color: '#A26769', icon: '🧠' },
-  { english: 'Community Support', arabic: 'Al-Ta\'awun', color: '#6C91BF', icon: '🤝' },
-  { english: 'Personal Journey', arabic: 'Al-Rihlah Al-Shakhsiyyah', color: '#B5838D', icon: '🌟' },
+  { english: 'Suffering', phonetic: 'Rihlah Shakhsiyyah', color: '#B5838D', icon: '🌟' },
+  { english: 'Natural State', phonetic: 'Fitrah', color: '#E76F51', icon: '🧬' },
+  { english: 'Misconceptions', phonetic: 'Su\' al-Mafahim', color: '#2A9D8F', icon: '💭' },
+  { english: 'Scientific Evidence', phonetic: 'Burhan Ilmi', color: '#F4A261', icon: '🔬' },
+  { english: 'Historical Evidence', phonetic: 'Burhan Tarikhi', color: '#E9C46A', icon: '📚' },
+  { english: 'Rational Evidence', phonetic: 'Hujaj Mantiqiyyah', color: '#A26769', icon: '🧠' },
+  { english: 'Quranic Evidence', phonetic: 'Ta\'awun', color: '#6C91BF', icon: '🤝' },
+  { english: 'Prophetic Evidence', phonetic: 'Adillah', color: '#8E7DBE', icon: '🔍' },
 ];
 
 const exploreTopics = [
-  { english: 'Purification', arabic: 'Tazkiyyah', color: '#8E7DBE', icon: '💖' },
-  { english: 'Prophets', arabic: 'Al-Anbiya\'', color: '#F4A261', icon: '📖' },
-  { english: 'Islamic History', arabic: 'At-Tarikh', color: '#2A9D8F', icon: '🏛️' },
-  { english: 'Islamic Art', arabic: 'Al-Fann', color: '#E76F51', icon: '🎨' },
-  { english: 'Islamic Science', arabic: 'Al-Ulum', color: '#E9C46A', icon: '🔬' },
-  { english: 'Islamic Philosophy', arabic: 'Al-Falsafah', color: '#A26769', icon: '🧠' },
-  { english: 'Islamic Literature', arabic: 'Al-Adab', color: '#6C91BF', icon: '📚' },
-  { english: 'Islamic Architecture', arabic: 'Al-Mi\'mar', color: '#B5838D', icon: '🕌' },
+  { english: 'Purification', phonetic: 'Tazkiyyah', color: '#8E7DBE', icon: '💖' },
+  { english: 'Prophets', phonetic: 'Anbiya', color: '#F4A261', icon: '📖' },
+  { english: 'History', phonetic: 'Tarikh', color: '#2A9D8F', icon: '🏛️' },
+  { english: 'Art', phonetic: 'Fann', color: '#E76F51', icon: '🎨' },
+  { english: 'Science', phonetic: 'Ulum', color: '#E9C46A', icon: '🔬' },
+  { english: 'Creed', phonetic: 'Aqeedah', color: '#A26769', icon: '🧠' },
+  { english: 'Literature', phonetic: 'Adab', color: '#6C91BF', icon: '📚' },
+  { english: 'Architecture', phonetic: 'Mi\'mar', color: '#B5838D', icon: '🕌' },
 ];
 
 const improveTopics = [
-  { english: 'Prayer', arabic: 'As-Salah', color: '#8E7DBE', icon: '🕌' },
-  { english: 'Fasting', arabic: 'As-Sawm', color: '#F4A261', icon: '🌙' },
-  { english: 'Charity', arabic: 'Az-Zakah', color: '#2A9D8F', icon: '🤲' },
-  { english: 'Pilgrimage', arabic: 'Al-Hajj', color: '#E76F51', icon: '🕋' },
-  { english: 'Good Character', arabic: 'Al-Akhlaq', color: '#E9C46A', icon: '💎' },
-  { english: 'Family', arabic: 'Al-Usrah', color: '#A26769', icon: '👨‍👩‍👧‍👦' },
-  { english: 'Community', arabic: 'Al-Jama\'ah', color: '#6C91BF', icon: '🤝' },
-  { english: 'Daily Dhikr', arabic: 'Adh-Dhikr', color: '#B5838D', icon: '📿' },
+  { english: 'Prayer', phonetic: 'Salah', color: '#8E7DBE', icon: '🕌' },
+  { english: 'Fasting', phonetic: 'Sawm', color: '#F4A261', icon: '🌙' },
+  { english: 'Charity', phonetic: 'Zakah', color: '#2A9D8F', icon: '🤲' },
+  { english: 'Pilgrimage', phonetic: 'Hajj', color: '#E76F51', icon: '🕋' },
+  { english: 'Good Character', phonetic: 'Akhlaq', color: '#E9C46A', icon: '💎' },
+  { english: 'Family', phonetic: 'Usrah', color: '#A26769', icon: '👨‍👩‍👧‍👦' },
+  { english: 'Quran', phonetic: 'Quran', color: '#6C91BF', icon: '📖' },
+  { english: 'Sunnah', phonetic: 'Dhikr', color: '#B5838D', icon: '📿' },
 ];
 
-// Default topics (fallback)
-const defaultTopics = [
-  { english: 'Purification', arabic: 'Tazkiyyah', color: '#8E7DBE', icon: '💖' },
-  { english: 'Divine Law', arabic: 'Sharia', color: '#F4A261', icon: '⚖️' },
-  { english: 'Revelation', arabic: "Qur'an", color: '#2A9D8F', icon: '📖' },
-  { english: 'Prophetic Guidance', arabic: 'Hadith & Sunnah', color: '#E76F51', icon: '🕊️' },
-  { english: 'Worship', arabic: 'Al Ibadah', color: '#E9C46A', icon: '🙏' },
-  { english: 'Afterlife', arabic: 'Akhirah', color: '#A26769', icon: '🌅' },
-  { english: 'Prophets', arabic: 'Anbiya', color: '#6C91BF', icon: '' },
-  { english: 'Unseen', arabic: 'Al-Ghayb', color: '#B5838D', icon: '✨' },
-];
+
 
 const WheelOfIslam = () => {
   const [selectedName, setSelectedName] = useState(null);
+  const [isPropertiesPanelOpen, setIsPropertiesPanelOpen] = useState(false);
+  const [userGoal, setUserGoal] = useState(localStorage.getItem('userGoal'));
+  const [userLevel, setUserLevel] = useState(parseInt(localStorage.getItem('userLevel')) || 1);
   const svgRef = useRef(null);
   const [size, setSize] = useState(0);
   const { theme, themeName } = useTheme();
   const { language } = useLanguage();
   const navigate = useNavigate();
 
-  // Get user's goal and determine topics
-  const userGoal = localStorage.getItem('userGoal');
+  // Shared state for PropertiesPanel
+  const [sharedGoal, setSharedGoal] = useState(userGoal);
+  const [sharedLevel, setSharedLevel] = useState(userLevel);
+
+  // Update shared state when userGoal/userLevel changes
+  useEffect(() => {
+    setSharedGoal(userGoal);
+    setSharedLevel(userLevel);
+  }, [userGoal, userLevel]);
+
+  const handleResetOnboarding = () => {
+    localStorage.removeItem('userGoal');
+    localStorage.removeItem('userLevel');
+    setUserGoal(null);
+    setUserLevel(1);
+    window.location.reload();
+  };
   let topics;
   let wheelTitle;
   let wheelSubtitle;
 
-  switch (userGoal) {
-    case 'doubts':
+
+  
+  // Use shared state for determining topics
+  const activeGoal = sharedGoal || userGoal;
+  const activeLevel = sharedLevel || userLevel;
+  
+  switch (activeGoal) {
+    case 'Doubts':
       topics = askTopics;
       wheelTitle = 'Wheel of Islam';
-      wheelSubtitle = 'Find Answers';
+      wheelSubtitle = `Address Doubts - Level ${activeLevel}`;
       break;
-    case 'explore':
+    case 'Explore':
       topics = exploreTopics;
       wheelTitle = 'Wheel of Islam';
-      wheelSubtitle = 'Explore & Discover';
+      wheelSubtitle = `Explore & Discover - Level ${activeLevel}`;
       break;
-    case 'improve':
+    case 'Improve':
       topics = improveTopics;
       wheelTitle = 'Wheel of Islam';
-      wheelSubtitle = 'Grow & Improve';
+      wheelSubtitle = `Grow & Improve - Level ${activeLevel}`;
       break;
     default:
-      topics = defaultTopics;
+      topics = exploreTopics;
       wheelTitle = 'Wheel of Islam';
-      wheelSubtitle = 'Your Digital Guide';
+      wheelSubtitle = `Explore & Discover - Level ${activeLevel}`;
   }
 
   useLayoutEffect(() => {
@@ -114,22 +127,23 @@ const WheelOfIslam = () => {
 
   const handleClick = (topic) => {
     if (topic === 'The (One and Only) True God' || topic === 'One True God') {
-      navigate('/names');
+      navigate('/one-true-god');
     } else if (topic === 'Settings') {
-      navigate('/settings');
+      setIsPropertiesPanelOpen(true);
     } else if (topic === 'Purification') {
       navigate('/tazkiyyah');
     } else {
-      // Show different messages based on user goal
+      // Show different messages based on user goal and level
       const userGoal = localStorage.getItem('userGoal');
+      const userLevel = localStorage.getItem('userLevel') || 1;
       let message = 'Coming soon!';
       
       if (userGoal === 'doubts') {
-        message = 'This section will help you find evidence and answers to your questions. Coming soon!';
+        message = `This section will help you find evidence and answers to your questions at Level ${userLevel}. Coming soon!`;
       } else if (userGoal === 'explore') {
-        message = 'This section will help you explore and discover new aspects of Islam. Coming soon!';
+        message = `This section will help you explore and discover new aspects of Islam at Level ${userLevel}. Coming soon!`;
       } else if (userGoal === 'improve') {
-        message = 'This section will help you improve your practice and build better habits. Coming soon!';
+        message = `This section will help you improve your practice and build better habits at Level ${userLevel}. Coming soon!`;
       }
       
       alert(message);
@@ -156,6 +170,8 @@ const WheelOfIslam = () => {
         // backgroundColor: theme.background, // Removed to allow background image to show
         color: theme.text,
         fontFamily: themeName === 'story' ? `'Poppins', sans-serif` : 'inherit',
+        transform: isPropertiesPanelOpen ? 'translateX(-200px)' : 'translateX(0)',
+        transition: 'transform 0.3s ease-in-out',
       }}
     >
       <style jsx>{`
@@ -241,7 +257,7 @@ const WheelOfIslam = () => {
             {/* Centrale cirkel */}
             {(() => {
               const centerFill =
-                themeName === 'story' ? 'url(#centerGradient)' : theme.background;
+                themeName === 'story' ? 'url(#centerGradient)' : 'transparent';
               const centerStroke =
                 themeName === 'story' ? '#a084e8' : theme.border;
               const centerTextColor =
@@ -258,20 +274,63 @@ const WheelOfIslam = () => {
                     strokeWidth="3"
                     onClick={() => handleClick('The (One and Only) True God')}
                     style={themeName === 'neon' ? { cursor: 'pointer', filter: `drop-shadow(0 0 6px ${theme.border})` } : { cursor: 'pointer' }}
+                    onMouseEnter={(e) => {
+                      e.target.style.filter = `drop-shadow(0 0 15px ${centerStroke}) drop-shadow(0 0 30px ${centerStroke})`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.filter = themeName === 'neon' ? `drop-shadow(0 0 6px ${theme.border})` : 'none';
+                    }}
+                    onMouseDown={(e) => {
+                      e.target.style.filter = `drop-shadow(0 0 5px ${centerStroke}) drop-shadow(0 0 10px ${centerStroke}) inset 0 0 10px rgba(0, 0, 0, 0.3)`;
+                    }}
+                    onMouseUp={(e) => {
+                      e.target.style.filter = `drop-shadow(0 0 15px ${centerStroke}) drop-shadow(0 0 30px ${centerStroke})`;
+                    }}
                   />
-                  <text
-                    x={center}
-                    y={center}
-                    textAnchor="middle"
-                    fill={centerTextColor}
-                    fontSize={getCenterFontSize('One True God')}
-                    fontWeight="bold"
-                    dy=".3em"
-                    pointerEvents="none"
-                    style={{ textShadow: '0 0 6px #00f2fa', textTransform: 'uppercase' }}
-                  >
-                    {'One True God'.toUpperCase()}
-                  </text>
+                  {userGoal === 'improve' ? (
+                    <>
+                      <text
+                        x={center}
+                        y={center - 25}
+                        textAnchor="middle"
+                        fill={centerTextColor}
+                        fontSize={getCenterFontSize('Remembrance of the One True God')}
+                        fontWeight="bold"
+                        dy=".3em"
+                        pointerEvents="none"
+                        style={{ textShadow: '0 0 6px #00f2fa', textTransform: 'uppercase' }}
+                      >
+                        {'Remembrance of'.toUpperCase()}
+                      </text>
+                      <text
+                        x={center}
+                        y={center + 25}
+                        textAnchor="middle"
+                        fill={centerTextColor}
+                        fontSize={getCenterFontSize('Remembrance of the One True God')}
+                        fontWeight="bold"
+                        dy=".3em"
+                        pointerEvents="none"
+                        style={{ textShadow: '0 0 6px #00f2fa', textTransform: 'uppercase' }}
+                      >
+                        {'The One True God'.toUpperCase()}
+                      </text>
+                    </>
+                  ) : (
+                    <text
+                      x={center}
+                      y={center}
+                      textAnchor="middle"
+                      fill={centerTextColor}
+                      fontSize={getCenterFontSize('The One True God')}
+                      fontWeight="bold"
+                      dy=".3em"
+                      pointerEvents="none"
+                      style={{ textShadow: '0 0 6px #00f2fa', textTransform: 'uppercase' }}
+                    >
+                      {'The One True God'.toUpperCase()}
+                    </text>
+                  )}
                 </>
               );
             })()}
@@ -282,7 +341,7 @@ const WheelOfIslam = () => {
               const pos = calculatePoint(angle, radius * 0.86);
 
               const fillColor =
-                themeName === 'story' ? topic.color : theme.background;
+                themeName === 'story' ? topic.color : 'transparent';
               const textColor =
                 themeName === 'story' ? '#ffffff' : theme.secondary;
               const strokeColor =
@@ -294,6 +353,38 @@ const WheelOfIslam = () => {
                   onClick={() => handleClick(topic.english)}
                   className={themeName === 'story' ? 'transition-all duration-300 topic-hover' : ''}
                   style={{ cursor: 'pointer' }}
+                  onMouseEnter={(e) => {
+                    const circle = e.currentTarget.querySelector('circle');
+                    const texts = e.currentTarget.querySelectorAll('text');
+                    if (circle) {
+                      circle.style.filter = `drop-shadow(0 0 15px ${strokeColor}) drop-shadow(0 0 30px ${strokeColor})`;
+                    }
+                    texts.forEach(text => {
+                      text.style.textShadow = `0 0 10px ${textColor} 0 0 20px ${textColor}`;
+                    });
+                  }}
+                  onMouseLeave={(e) => {
+                    const circle = e.currentTarget.querySelector('circle');
+                    const texts = e.currentTarget.querySelectorAll('text');
+                    if (circle) {
+                      circle.style.filter = themeName === 'neon' ? `drop-shadow(0 0 6px ${strokeColor})` : 'none';
+                    }
+                    texts.forEach(text => {
+                      text.style.textShadow = '0 0 6px #00f2fa';
+                    });
+                  }}
+                  onMouseDown={(e) => {
+                    const circle = e.currentTarget.querySelector('circle');
+                    if (circle) {
+                      circle.style.filter = `drop-shadow(0 0 5px ${strokeColor}) drop-shadow(0 0 10px ${strokeColor}) inset 0 0 10px rgba(0, 0, 0, 0.3)`;
+                    }
+                  }}
+                  onMouseUp={(e) => {
+                    const circle = e.currentTarget.querySelector('circle');
+                    if (circle) {
+                      circle.style.filter = `drop-shadow(0 0 15px ${strokeColor}) drop-shadow(0 0 30px ${strokeColor})`;
+                    }
+                  }}
                 >
                   <circle
                     cx={pos.x}
@@ -316,18 +407,47 @@ const WheelOfIslam = () => {
                       {topic.icon}
                     </text>
                   )}
-                  <text
-                    x={pos.x}
-                    y={pos.y}
-                    textAnchor="middle"
-                    fill={textColor}
-                    fontSize={topicFontSize}
-                    fontWeight="bold"
-                    dy="0"
-                    style={{ textShadow: '0 0 6px #00f2fa', textTransform: 'uppercase' }}
-                  >
-                    {topic.english.toUpperCase()}
-                  </text>
+                  {topic.english.includes('\n') ? (
+                    <>
+                      <text
+                        x={pos.x}
+                        y={pos.y - 15}
+                        textAnchor="middle"
+                        fill={textColor}
+                        fontSize={topicFontSize}
+                        fontWeight="bold"
+                        dy="0"
+                        style={{ textShadow: '0 0 6px #00f2fa', textTransform: 'uppercase' }}
+                      >
+                        {topic.english.split('\n')[0].toUpperCase()}
+                      </text>
+                      <text
+                        x={pos.x}
+                        y={pos.y + 15}
+                        textAnchor="middle"
+                        fill={textColor}
+                        fontSize={topicFontSize}
+                        fontWeight="bold"
+                        dy="0"
+                        style={{ textShadow: '0 0 6px #00f2fa', textTransform: 'uppercase' }}
+                      >
+                        {topic.english.split('\n')[1].toUpperCase()}
+                      </text>
+                    </>
+                  ) : (
+                    <text
+                      x={pos.x}
+                      y={pos.y}
+                      textAnchor="middle"
+                      fill={textColor}
+                      fontSize={topicFontSize}
+                      fontWeight="bold"
+                      dy="0"
+                      style={{ textShadow: '0 0 6px #00f2fa', textTransform: 'uppercase' }}
+                    >
+                      {topic.english.toUpperCase()}
+                    </text>
+                  )}
                   {language === 'english_phonetic' && (
                     <text
                       x={pos.x}
@@ -336,7 +456,7 @@ const WheelOfIslam = () => {
                       fill={textColor}
                       fontSize={outerRadius * 0.13}
                     >
-                      {topic.arabic}
+                      {topic.phonetic}
                     </text>
                   )}
                 </g>
@@ -345,19 +465,11 @@ const WheelOfIslam = () => {
           </svg>
         </div>
 
-        <button
-          onClick={() => navigate('/settings')}
-          className="mt-6 px-4 py-2 text-sm sm:text-lg font-bold rounded-full transition-all duration-200 hover:scale-105"
-          style={{
-            border: `2px solid ${theme.secondary}`,
-            color: theme.secondary,
-            backgroundColor: 'transparent',
-            textShadow: '0 0 6px #00f2fa',
-          }}
+
+        <button 
+          onClick={handleResetOnboarding}
+          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 mt-4"
         >
-          ⚙️ Settings
-        </button>
-        <button onClick={() => { localStorage.removeItem('userGoal'); window.location.reload(); }}>
           Reset Onboarding
         </button>
       </div>
@@ -367,9 +479,9 @@ const WheelOfIslam = () => {
         <button
           onClick={() => {
             const messages = {
-              doubts: "Hey! How are you? 👋\n\nI'm here to answer your questions about Islam.\nNo judgment, no pressure - just honest, helpful answers.\n\nWhat's on your mind?",
-              explore: "Ready to discover? Let's explore together! 🌟\n\nI'm here to guide your learning journey through Islam.\nLet's find the perfect topics for you to explore!",
-              improve: "Ready to grow? Let's build better habits! 🎯\n\nI'm here to help you set goals, track progress, and improve your practice.\nWhat area would you like to focus on first?"
+              doubts: `Hey! How are you? 👋\n\nI'm here to answer your questions about Islam at Level ${userLevel}.\nNo judgment, no pressure - just honest, helpful answers.\n\nWhat's on your mind?`,
+              explore: `Ready to discover? Let's explore together! 🌟\n\nI'm here to guide your learning journey through Islam at Level ${userLevel}.\nLet's find the perfect topics for you to explore!`,
+              improve: `Ready to grow? Let's build better habits! 🎯\n\nI'm here to help you set goals, track progress, and improve your practice at Level ${userLevel}.\nWhat area would you like to focus on first?`
             };
             alert(messages[userGoal] || "Hello! How can I help you today?");
           }}
@@ -416,6 +528,16 @@ const WheelOfIslam = () => {
       {/* {view === 'tazkiyyah' && (
         <TazkiyyahLanding onBack={() => setView('wheel')} />
       )} */}
+
+      {/* Properties Panel */}
+      <PropertiesPanel 
+        isOpen={isPropertiesPanelOpen} 
+        onClose={() => setIsPropertiesPanelOpen(false)}
+        sharedGoal={sharedGoal}
+        setSharedGoal={setSharedGoal}
+        sharedLevel={sharedLevel}
+        setSharedLevel={setSharedLevel}
+      />
     </div>
   );
 };

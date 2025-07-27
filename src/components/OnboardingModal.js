@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useStrategy, USER_GROUPS } from '../context/StrategyContext';
 
 const modalStyle = {
   position: 'fixed',
@@ -55,20 +56,19 @@ const buttonStyle = {
 //   '👁️', // Just looking
 // ];
 
-const themeOptions = [
-  { key: 'neon', label: 'Neon', color: '#FF007F' },
-  { key: 'story', label: 'Story', color: '#4a3f78' },
+const levelOptions = [
+  { key: 1, label: 'Level 1 - Novice', color: '#FF007F' },
 ];
 
 const goalOptions = [
-  { key: 'doubts', label: 'I\'m experiencing doubts and looking for answers' },
-  { key: 'improve', label: 'I want to improve my practice of Islam and my connection with God' },
-  { key: 'explore', label: 'I just want to have a look around!' },
+  { key: 'Doubts', label: 'I\'m experiencing doubts and looking for answers' },
+  { key: 'Explore', label: 'I just want to have a look around!' },
+  { key: 'Improve', label: 'I want to improve my practice of Islam and my connection with God' },
 ];
 
-export default function OnboardingModal({ open, onSelect, onThemeChange, selectedTheme }) {
-  // Set localTheme to null initially so user must select a theme
-  const [localTheme, setLocalTheme] = useState(null);
+export default function OnboardingModal({ open, onSelect, onLevelChange, selectedLevel }) {
+  // Set localLevel to null initially so user must select a level
+  const [localLevel, setLocalLevel] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState(null);
 
   if (!open) return null;
@@ -91,7 +91,7 @@ export default function OnboardingModal({ open, onSelect, onThemeChange, selecte
           fontSize: 'clamp(1rem, 3vw, 1.25rem)',
           lineHeight: '1.3'
         }}>
-          Please select a goal and theme
+          Please select a goal and level
         </p>
         <div style={{ 
           color: '#fff', 
@@ -127,7 +127,7 @@ export default function OnboardingModal({ open, onSelect, onThemeChange, selecte
               onMouseEnter={e => e.currentTarget.style.background = '#333'}
               onMouseLeave={e => e.currentTarget.style.background = selectedGoal === opt.key ? '#222b' : '#222'}
             >
-              {opt.label}
+              {opt.key.charAt(0).toUpperCase() + opt.key.slice(1)} - {opt.label}
             </button>
           ))}
         </div>
@@ -137,7 +137,7 @@ export default function OnboardingModal({ open, onSelect, onThemeChange, selecte
           fontWeight: 'bold',
           fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)'
         }}>
-          Theme
+          Level
         </div>
         <div style={{ 
           display: 'flex', 
@@ -147,18 +147,15 @@ export default function OnboardingModal({ open, onSelect, onThemeChange, selecte
           gap: '0.75rem', 
           marginBottom: '1.5rem' 
         }}>
-          {themeOptions.map(opt => {
-            const isNeon = opt.key === 'neon';
-            const isSelected = localTheme === opt.key;
+          {levelOptions.map(opt => {
+            const isSelected = localLevel === opt.key;
             let background = 'transparent';
             let border = isSelected ? `2px solid ${opt.color}` : '2px solid #444';
             let boxShadow = isSelected ? `0 0 8px 2px ${opt.color}` : 'none';
-            if (isNeon && isSelected) {
+            if (isSelected) {
               background = 'transparent';
               border = '2px solid #00f2fa';
               boxShadow = '0 0 8px 2px #00f2fa, 0 0 16px 4px #00f2fa';
-            } else if (isSelected) {
-              background = 'transparent';
             }
             return (
               <button
@@ -177,13 +174,11 @@ export default function OnboardingModal({ open, onSelect, onThemeChange, selecte
                   fontSize: 'clamp(0.9rem, 2.5vw, 1rem)',
                 }}
                 onClick={() => {
-                  setLocalTheme(opt.key);
-                  if (onThemeChange) onThemeChange(opt.key);
+                  setLocalLevel(opt.key);
+                  if (onLevelChange) onLevelChange(opt.key);
                 }}
                 onMouseEnter={e => {
-                  if (isNeon && isSelected) {
-                    e.currentTarget.style.background = 'transparent';
-                  } else if (isSelected) {
+                  if (isSelected) {
                     e.currentTarget.style.background = 'transparent';
                   } else {
                     e.currentTarget.style.background = '#333';
@@ -204,18 +199,18 @@ export default function OnboardingModal({ open, onSelect, onThemeChange, selecte
             width: '100%',
             maxWidth: '200px',
             margin: '1rem auto 0',
-            background: selectedGoal && localTheme ? '#00f2fa' : '#444',
-            color: selectedGoal && localTheme ? '#111' : '#888',
+            background: selectedGoal && localLevel ? '#00f2fa' : '#444',
+            color: selectedGoal && localLevel ? '#111' : '#888',
             border: 'none',
             fontWeight: 'bold',
-            cursor: selectedGoal && localTheme ? 'pointer' : 'not-allowed',
-            opacity: selectedGoal && localTheme ? 1 : 0.7,
+            cursor: selectedGoal && localLevel ? 'pointer' : 'not-allowed',
+            opacity: selectedGoal && localLevel ? 1 : 0.7,
             transition: 'background 0.2s, color 0.2s, opacity 0.2s',
             display: 'block',
             fontSize: 'clamp(0.9rem, 2.5vw, 1rem)',
             minHeight: '50px',
           }}
-          disabled={!(selectedGoal && localTheme)}
+          disabled={!(selectedGoal && localLevel)}
           onClick={() => onSelect(selectedGoal)}
         >
           Lets go!
@@ -226,7 +221,7 @@ export default function OnboardingModal({ open, onSelect, onThemeChange, selecte
           color: '#888',
           lineHeight: '1.4'
         }}>
-          You can always change your goal or theme later in settings.
+          You can always change your goal or level later in settings.
         </p>
       </div>
     </div>

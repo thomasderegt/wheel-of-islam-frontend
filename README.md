@@ -1,116 +1,180 @@
-# Wheel of Islam
+## Overview
+Wheel of Islam (WOI) is is a modern, interactive web application designed to help generation Z Muslim youth - especially those growing up with liberal secular ideas - reconnect with their faith in a non-judgmental, engaging, and personalized way.
 
-**Wheel of Islam** is a modern, interactive web application designed to help Muslim youth—especially those growing up in Western contexts—reconnect with their faith in a non-judgmental, engaging, and personalized way.
+(WOI) designed to serve relevant user groups to the youth like the parents and educators, with different needs and subscription tiers.
 
-At its core, the app features a visually appealing “wheel” interface, where each segment represents a foundational topic of Islam (such as Worship, Tazkiyyah, Qur’an, Prophetic Guidance, and more). Users can freely explore any topic at their own pace, with the app providing approachable, bite-sized knowledge and actionable steps tailored to their current level of understanding and practice.
+## Primary User Groups & Strategy
 
-To further support users facing doubts, misconceptions, or challenging questions—often encountered in Western environments—the app includes the **Dawah Guide**. This feature allows users to anonymously submit any statement, question, or doubt they’ve heard (e.g., “God does not exist,” “Why do Muslims pray five times a day?”). The Dawah Guide responds with empathetic, faith-based, and contextually relevant answers, powered by a combination of AI and pre-approved responses, and always encourages further exploration and learning.
+### 1. Gen Z (Youth) - Primary Group
+**Target:** Muslim youth aged 13-25 seeking to reconnect with their faith
 
-## Key Features
-- **Non-linear, user-driven exploration** of core Islamic topics via the interactive wheel.
-- **Personalized content and micro-actions** based on the user’s current level and interests.
-- **Dawah Guide:** An AI-powered assistant for addressing doubts, misconceptions, and questions in a safe, anonymous, and supportive environment.
-- **Resource links and further reading** for users who want to deepen their understanding.
-- **Modern, mobile-friendly design** tailored for Gen Z, with a focus on accessibility, inclusivity, and positive reinforcement.
+**Subscription:** FREE (income through advertisements)
+- **Goal:** Attract and retain the primary user base
+- **Value Proposition:** Accessible, engaging Islamic content for digital-native youth
+- **Features:**
+  - Interactive wheel navigation
+  - Basic Islamic content access
+  - Goal tracking and progress
+  - Community features
+  - Mobile-first design
+  - Gamification elements
+  - AI improvement chatbot for personalized guidance
 
-**Mission:**
-To provide Muslim youth with a safe, engaging, and empowering digital space to learn, reflect, and grow in their faith—starting from wherever they are, and always without judgment or overwhelm.
+**Goal Modes:**
+- I just want to take a look around
+- I have doubts and looking for answers
+- I want to improve my practice
+
+*Users can switch between different goal modes whenever they want, allowing for flexible and personalized spiritual growth journeys.*
+
+**Levels (Novice to Advanced):**
+Each goal mode offers 5 progressive levels:
+
+**Level 1 - Novice:** Basic introduction and foundational concepts
+**Level 2 - Beginner:** Building understanding and comfort
+**Level 3 - Intermediate:** Deeper exploration and application
+**Level 4 - Advanced:** Complex topics and advanced practice
+**Level 5 - Proficient:** Strong understanding and consistent practice
+
+**Level Progression by Goal Mode:**
+
+**"I just want to take a look around"**
+- Level 1: Basic Islamic concepts and terminology
+- Level 2: Islamic history and cultural practices
+- Level 3: Core beliefs and values
+- Level 4: Islamic philosophy and worldview
+- Level 5: Advanced Islamic scholarship and contemporary issues
+
+**"I have doubts and looking for answers"**
+- Level 1: Common questions and basic answers
+- Level 2: Evidence-based responses to doubts
+- Level 3: Philosophical and theological discussions
+- Level 4: Complex theological debates and modern challenges
+- Level 5: Advanced apologetics and interfaith dialogue
+
+**"I want to improve my practice"**
+- Level 1: Basic prayers (5 daily prayers)
+- Level 2: Sunnah prayers, basic dhikr, short surahs
+- Level 3: Longer surahs, additional nawafil prayers, Quran memorization (short surahs)
+- Level 4: Tahajjud, fasting, advanced spiritual practices, Quran memorization (medium surahs), hadith memorization
+- Level 5: Consistent advanced practices, Quran memorization (long surahs), teaching others
+
+**AI Improvement Chatbot:**
+The app includes an intelligent chatbot that helps users identify what they want to improve and why:
+
+**What it does:**
+- Asks targeted questions about current spiritual state
+- Identifies specific areas for improvement (prayer, Quran, character, etc.)
+- Understands personal motivations and challenges
+- Suggests appropriate practice levels and goals
+- Provides personalized improvement plans
+- Tracks progress and adjusts recommendations
+
+**How it works:**
+- Conversational interface that feels natural
+- Asks about current practices and struggles
+- Explores reasons for wanting to improve
+- Recommends specific actions based on user's situation
+- Follows up on progress and obstacles
+- Adapts recommendations as user grows
+
 
 ---
 
-## Pitch Deck Summary
+### 2. Gen z + Parents - Premium Tier
+**Target:** Busy parents supporting their children's Islamic education
 
-**Vision:**
-Empower Muslim youth to reconnect with their faith through a modern, non-judgmental, and interactive digital experience.
+**Subscription:** $10/month
+- **Goal:** Support parents in their busy schedules while providing value
+- **Value Proposition:** Family-focused Islamic education with schedule optimization
+- **Features:**
+  - All Gen Z features
+  - Parent dashboard
+  - Progress tracking for children
+  - Scheduled reminders and notifications
+  - Family activity suggestions
+  - Busy schedule optimization
+  - Family goal setting
 
-**Problem:**
-Many Muslim youth, especially in Western societies, face doubts, misconceptions, and a lack of accessible, relatable resources to support their faith journey.
+**Goal Modes:**
+- I want to support my children's Islamic education
+- I need help managing Islamic education with my busy schedule
+- I want to grow in my own Islamic knowledge
 
-**Solution:**
-Wheel of Islam offers a visually engaging, non-linear exploration of core Islamic topics, paired with Dawah Guide—an AI-powered assistant that provides empathetic, faith-based answers to any question or doubt, anonymously and safely.
+**Modules Available:**
+- All Gen Z modules
+- Parent Dashboard
+- Family Activities
+- Schedule Management
 
-**Key Features:**
-- Interactive wheel for self-paced, topic-based learning
-- Personalized, actionable content for every user
-- Dawah Guide for real-time, AI-powered Q&A
-- Resource links and further reading
-- Mobile-first, Gen Z-friendly design
-
-**Impact:**
-- Reduces overwhelm and judgment for youth at any stage of their faith journey
-- Equips users to address doubts and misconceptions with confidence
-- Fosters a positive, supportive, and inclusive digital faith community
+**Support:** Dedicated parent support with schedule optimization
 
 ---
 
-# Getting Started with Create React App
+### 3. Gen Z + parents + educators and  - Premium Tier
+**Target:** Gen Z + parents + educators
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Subscription:** Premium (higher tier pricing)
+- **Goal:** Generate income for teachers/imams while focussing on Gen Z and their partens
+- **Value Proposition:** Professional tools and income generation opportunities
+- **Features:**
+  - All Parent features
+  - 1-on-1 session booking system
+  - Student management tools
+  - Content creation platform
+  - Income generation through sessions
+  - Professional development resources
+  - Community leadership tools
+  - Analytics and reporting
 
-## Available Scripts
+**Goal Modes:**
+- I want to teach and guide Gen Z students effectively
+- I want to generate additional income through teaching
+- I want to strengthen my community leadership
 
-In the project directory, you can run:
+## Revenue Model
 
-### `npm start`
+### Free Tier (Gen Z)
+- **Revenue:** $0 (user acquisition)
+- **Cost:** Basic hosting and development
+- **Strategy:** Build user base and community
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Parent Tier ($10/month)
+- **Revenue:** $10/month per family
+- **Value:** Schedule optimization, family activities, progress tracking
+- **Strategy:** Support busy families while generating sustainable revenue
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Parent Tier + Tier (Premium)
+- **Revenue:** Higher subscription + session fees
+- **Value:** Professional tools and income generation
+- **Strategy:** Create ecosystem where teachers can earn while WOI benefits and support Gen Z
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Implementation Phases
 
-### `npm run build`
+## Success Metrics
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Gen Z (Free Tier)
+- User acquisition rate
+- Daily/monthly active users
+- Content engagement
+- Community participation
+- Improvement (knowlegde + action)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Parents ($10/month)
+- Conversion rate from free to paid
+- Monthly recurring revenue
+- Family engagement metrics
+- Schedule optimization success
+- Improvement (knowlegde + action)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Parents+ (Premium)
+- Teacher registration rate
+- Session booking volume
+- Income generation per teacher
+- Content creation activity
+- Improvement (knowlegde + action)
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# Updated

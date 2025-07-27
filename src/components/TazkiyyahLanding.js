@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const TazkiyyahLanding = () => {
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen text-white flex flex-col items-center justify-center p-6">
       <img
         src={twoWingsImg}
         alt="The Two Wings"

@@ -4,7 +4,7 @@ import WheelOfIslam from './components/WheelOfIslam';
 import NamesOfAllah from './components/NamesOfAllah';
 import NameDetail from './components/NameDetail';
 import TazkiyyahLanding from './components/TazkiyyahLanding';
-import Settings from './components/Settings';
+import OneTrueGodIntro from './components/OneTrueGodIntro';
 import OnboardingModal from './components/OnboardingModal';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
@@ -25,9 +25,8 @@ function AppContent() {
     setShowOnboarding(false);
   };
 
-  const handleThemeChange = (theme) => {
-    setThemeName(theme);
-    // localStorage is handled by ThemeProvider
+  const handleLevelChange = (level) => {
+    localStorage.setItem('userLevel', level);
   };
 
   return (
@@ -35,8 +34,8 @@ function AppContent() {
       <OnboardingModal
         open={showOnboarding}
         onSelect={handleOnboardingSelect}
-        onThemeChange={handleThemeChange}
-        selectedTheme={themeName}
+        onLevelChange={handleLevelChange}
+        selectedLevel={1}
       />
       <div
         style={{
@@ -50,10 +49,10 @@ function AppContent() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<WheelOfIslam />} />
+          <Route path="/one-true-god" element={<OneTrueGodIntro />} />
           <Route path="/names" element={<NamesOfAllah />} />
           <Route path="/names/:nameId" element={<NameDetail />} />
           <Route path="/tazkiyyah" element={<TazkiyyahLanding />} />
-          <Route path="/settings" element={<Settings />} />
         </Routes>
       </BrowserRouter>
     </>
