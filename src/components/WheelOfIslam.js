@@ -467,13 +467,13 @@ const WheelOfIslam = () => {
         <div className="flex justify-center mt-4">
           <button 
             onClick={() => setIsPropertiesPanelOpen(true)}
-            className="px-6 py-3 text-base rounded-lg border-2 transition-all duration-200 active:scale-95"
+            className="px-3 py-1.5 text-xs rounded border transition-all duration-200 active:scale-95"
             style={{
               color: '#00f2fa',
               borderColor: '#00f2fa',
               backgroundColor: 'transparent',
-              width: '200px',
-              boxShadow: '0 0 10px #00f2fa, 0 0 20px #00f2fa'
+              width: '80px',
+              boxShadow: '0 0 8px #00f2fa, 0 0 16px #00f2fa'
             }}
             onMouseEnter={(e) => {
               e.target.style.backgroundColor = 'rgba(0, 242, 250, 0.1)';
