@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import WheelPage from './pages/WheelPage'; // New atomic design page
+import WheelOfIslam from './components/WheelOfIslam';
 import NamesOfAllah from './components/NamesOfAllah';
 import NameDetail from './components/NameDetail';
 import TazkiyyahLanding from './components/TazkiyyahLanding';
@@ -48,7 +48,7 @@ function AppContent() {
       ></div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<WheelPage />} />
+          <Route path="/" element={<WheelOfIslam />} />
           <Route path="/one-true-god" element={<OneTrueGodIntro />} />
           <Route path="/names" element={<NamesOfAllah />} />
           <Route path="/names/:nameId" element={<NameDetail />} />

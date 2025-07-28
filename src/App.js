@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+// Atomic Design Pages
+import WheelPage from './pages/WheelPage';
+import NamesPage from './pages/NamesPage';
+import NameDetailPage from './pages/NameDetailPage';
+import TazkiyyahPage from './pages/TazkiyyahPage';
+import OneTrueGodPage from './pages/OneTrueGodPage';
+
+// Original Components (as fallback)
 import WheelOfIslam from './components/WheelOfIslam';
 import NamesOfAllah from './components/NamesOfAllah';
 import NameDetail from './components/NameDetail';
 import TazkiyyahLanding from './components/TazkiyyahLanding';
 import OneTrueGodIntro from './components/OneTrueGodIntro';
 import OnboardingModal from './components/OnboardingModal';
+
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import './App.css';
@@ -48,11 +58,19 @@ function AppContent() {
       ></div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<WheelOfIslam />} />
-          <Route path="/one-true-god" element={<OneTrueGodIntro />} />
-          <Route path="/names" element={<NamesOfAllah />} />
-          <Route path="/names/:nameId" element={<NameDetail />} />
-          <Route path="/tazkiyyah" element={<TazkiyyahLanding />} />
+          {/* Atomic Design Pages */}
+          <Route path="/" element={<WheelPage />} />
+          <Route path="/one-true-god" element={<OneTrueGodPage />} />
+          <Route path="/names" element={<NamesPage />} />
+          <Route path="/names/:nameId" element={<NameDetailPage />} />
+          <Route path="/tazkiyyah" element={<TazkiyyahPage />} />
+          
+          {/* Fallback Routes (for testing) */}
+          <Route path="/original-wheel" element={<WheelOfIslam />} />
+          <Route path="/original-names" element={<NamesOfAllah />} />
+          <Route path="/original-name/:nameId" element={<NameDetail />} />
+          <Route path="/original-tazkiyyah" element={<TazkiyyahLanding />} />
+          <Route path="/original-one-true-god" element={<OneTrueGodIntro />} />
         </Routes>
       </BrowserRouter>
     </>
