@@ -1,14 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSettings } from '../context/SettingsContext';
 import { useTheme } from '../context/ThemeContext';
-import { useLanguage } from '../context/LanguageContext';
 
-const Settings = ({ isOpen, onClose, sharedGoal, setSharedGoal, sharedLevel, setSharedLevel }) => {
-  const [creed, setCreed] = useState(localStorage.getItem('userCreed') || '1');
-  const [jurisprudence, setJurisprudence] = useState(localStorage.getItem('userJurisprudence') || 'all');
-  const { theme, themeName, setThemeName } = useTheme();
-  const { language, setLanguage } = useLanguage();
+const Settings = () => {
+  const { 
+    isSettingsOpen, 
+    closeSettings, 
+    userGoal, 
+    setUserGoal, 
+    userLevel, 
+    setUserLevel,
+    creed,
+    setCreed,
+    jurisprudence,
+    setJurisprudence,
+    themeName,
+    setThemeName,
+    language,
+    setLanguage
+  } = useSettings();
   
-  if (!isOpen) return null;
+  const { theme } = useTheme();
+  
+  if (!isSettingsOpen) return null;
 
   return (
     <div 
@@ -52,7 +66,7 @@ const Settings = ({ isOpen, onClose, sharedGoal, setSharedGoal, sharedLevel, set
             Settings
           </h2>
           <button 
-            onClick={onClose}
+            onClick={closeSettings}
             className="text-2xl transition-all duration-200 hover:scale-110"
             style={themeName === 'story' ? {
               color: theme.secondary,
@@ -82,10 +96,9 @@ const Settings = ({ isOpen, onClose, sharedGoal, setSharedGoal, sharedLevel, set
               Goal
             </label>
             <select 
-              value={sharedGoal || ''}
+              value={userGoal || ''}
               onChange={(e) => {
-                setSharedGoal(e.target.value);
-                localStorage.setItem('userGoal', e.target.value);
+                setUserGoal(e.target.value);
               }}
               className="w-full p-3 rounded border-2 transition-all duration-200"
               style={themeName === 'story' ? {
@@ -121,10 +134,9 @@ const Settings = ({ isOpen, onClose, sharedGoal, setSharedGoal, sharedLevel, set
               Level
             </label>
             <select 
-              value={sharedLevel || 1}
+              value={userLevel || 1}
               onChange={(e) => {
-                setSharedLevel(parseInt(e.target.value));
-                localStorage.setItem('userLevel', e.target.value);
+                setUserLevel(parseInt(e.target.value));
               }}
               className="w-full p-3 rounded border-2 transition-all duration-200"
               style={themeName === 'story' ? {
@@ -302,7 +314,7 @@ const Settings = ({ isOpen, onClose, sharedGoal, setSharedGoal, sharedLevel, set
           {/* Action Buttons */}
           <div className="flex gap-4 pt-4">
             <button 
-              onClick={onClose}
+              onClick={closeSettings}
               className="flex-1 py-3 px-4 rounded-lg border-2 transition-all duration-200 active:scale-95"
               style={themeName === 'story' ? {
                 color: theme.primary,
@@ -338,7 +350,7 @@ const Settings = ({ isOpen, onClose, sharedGoal, setSharedGoal, sharedLevel, set
             </button>
             <button 
               onClick={() => {
-                onClose();
+                closeSettings();
                 window.location.reload();
               }}
               className="flex-1 py-3 px-4 rounded-lg border-2 transition-all duration-200 active:scale-95"

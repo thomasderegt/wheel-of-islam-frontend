@@ -1,34 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import CircularMenu from '../organisms/CircularMenu';
-import Settings from '../components/Settings';
+import { useSettings } from '../context/SettingsContext';
 
 const WheelPage = () => {
-  const [selectedName, setSelectedName] = useState(null);
-  const [isPropertiesPanelOpen, setIsPropertiesPanelOpen] = useState(false);
-  const [userGoal, setUserGoal] = useState(localStorage.getItem('userGoal'));
-  const [userLevel, setUserLevel] = useState(parseInt(localStorage.getItem('userLevel')) || 1);
-
-  // Shared state for PropertiesPanel
-  const [sharedGoal, setSharedGoal] = useState(userGoal);
-  const [sharedLevel, setSharedLevel] = useState(userLevel);
-
-  // Update shared state when userGoal/userLevel changes
-  useEffect(() => {
-    setSharedGoal(userGoal);
-    setSharedLevel(userLevel);
-  }, [userGoal, userLevel]);
-
-  const handleResetOnboarding = () => {
-    localStorage.removeItem('userGoal');
-    localStorage.removeItem('userLevel');
-    setUserGoal(null);
-    setUserLevel(1);
-    window.location.reload();
-  };
-
-  const handleSettingsClick = () => {
-    setIsPropertiesPanelOpen(true);
-  };
+  const { userGoal, userLevel, openSettings, resetOnboarding } = useSettings();
 
   const handleAIClick = () => {
     const messages = {
@@ -40,25 +15,13 @@ const WheelPage = () => {
   };
 
   return (
-    <>
-      <CircularMenu
-        userGoal={sharedGoal || userGoal}
-        userLevel={sharedLevel || userLevel}
-        onSettingsClick={handleSettingsClick}
-        onResetClick={handleResetOnboarding}
-        onAIClick={handleAIClick}
-      />
-
-      {/* Settings Component */}
-      <Settings 
-        isOpen={isPropertiesPanelOpen}
-        onClose={() => setIsPropertiesPanelOpen(false)}
-        sharedGoal={sharedGoal}
-        setSharedGoal={setSharedGoal}
-        sharedLevel={sharedLevel}
-        setSharedLevel={setSharedLevel}
-      />
-    </>
+    <CircularMenu
+      userGoal={userGoal}
+      userLevel={userLevel}
+      onSettingsClick={openSettings}
+      onResetClick={resetOnboarding}
+      onAIClick={handleAIClick}
+    />
   );
 };
 

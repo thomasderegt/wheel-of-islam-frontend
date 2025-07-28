@@ -1,9 +1,13 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
+import NamesOfAllah from './NamesOfAllah';
+import NameDetail from './NameDetail';
+import TazkiyyahLanding from './TazkiyyahLanding';
+import Settings from './Settings';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useNavigate } from 'react-router-dom';
 
-// Goal-based topic configurations (keeping original data)
+// Goal-based topic configurations
 const askTopics = [
   { english: 'Suffering', phonetic: 'Rihlah Shakhsiyyah', color: '#B5838D', icon: '🌟' },
   { english: 'Natural State', phonetic: 'Fitrah', color: '#E76F51', icon: '🧬' },
@@ -37,66 +41,84 @@ const improveTopics = [
   { english: 'Sunnah', phonetic: 'Dhikr', color: '#B5838D', icon: '📿' },
 ];
 
-const CircularMenu = ({ 
-  userGoal, 
-  userLevel = 1,
-  onSettingsClick,
-  onResetClick,
-  onAIClick
-}) => {
+
+
+const WheelOfIslam = () => {
+  const [selectedName, setSelectedName] = useState(null);
+  const [isPropertiesPanelOpen, setIsPropertiesPanelOpen] = useState(false);
+  const [userGoal, setUserGoal] = useState(localStorage.getItem('userGoal'));
+  const [userLevel, setUserLevel] = useState(parseInt(localStorage.getItem('userLevel')) || 1);
   const svgRef = useRef(null);
   const [size, setSize] = useState(0);
   const { theme, themeName } = useTheme();
   const { language } = useLanguage();
   const navigate = useNavigate();
 
-  // Determine topics based on user goal
+  // Shared state for PropertiesPanel
+  const [sharedGoal, setSharedGoal] = useState(userGoal);
+  const [sharedLevel, setSharedLevel] = useState(userLevel);
+
+  // Update shared state when userGoal/userLevel changes
+  useEffect(() => {
+    setSharedGoal(userGoal);
+    setSharedLevel(userLevel);
+  }, [userGoal, userLevel]);
+
+  const handleResetOnboarding = () => {
+    localStorage.removeItem('userGoal');
+    localStorage.removeItem('userLevel');
+    setUserGoal(null);
+    setUserLevel(1);
+    window.location.reload();
+  };
   let topics;
   let wheelTitle;
   let wheelSubtitle;
 
-  switch (userGoal) {
+
+  
+  // Use shared state for determining topics
+  const activeGoal = sharedGoal || userGoal;
+  const activeLevel = sharedLevel || userLevel;
+  
+  switch (activeGoal) {
     case 'doubts':
       topics = askTopics;
       wheelTitle = 'Wheel of Islam';
-      wheelSubtitle = `Address Doubts - Level ${userLevel}`;
+      wheelSubtitle = `Address Doubts - Level ${activeLevel}`;
       break;
     case 'explore':
       topics = exploreTopics;
       wheelTitle = 'Wheel of Islam';
-      wheelSubtitle = `Explore & Discover - Level ${userLevel}`;
+      wheelSubtitle = `Explore & Discover - Level ${activeLevel}`;
       break;
     case 'improve':
       topics = improveTopics;
       wheelTitle = 'Wheel of Islam';
-      wheelSubtitle = `Grow & Improve - Level ${userLevel}`;
+      wheelSubtitle = `Grow & Improve - Level ${activeLevel}`;
       break;
     default:
-      topics = askTopics;
+      topics = exploreTopics;
       wheelTitle = 'Wheel of Islam';
-      wheelSubtitle = `Address Doubts - Level ${userLevel}`;
+      wheelSubtitle = `Explore & Discover - Level ${activeLevel}`;
   }
 
-  // Calculate dimensions
-  const center = size / 2;
-  const radius = center * 0.7;
-  const outerRadius = center * 0.18;
-  const centerRadius = center * 0.25;
-
-  // Update size on window resize
   useLayoutEffect(() => {
     const updateSize = () => {
-      const container = svgRef.current?.parentElement;
-      if (container) {
-        const containerSize = Math.min(container.clientWidth, container.clientHeight);
-        setSize(containerSize);
+      if (svgRef.current) {
+        const rect = svgRef.current.getBoundingClientRect();
+        setSize(Math.min(rect.width, rect.height));
       }
     };
-
     updateSize();
     window.addEventListener('resize', updateSize);
     return () => window.removeEventListener('resize', updateSize);
   }, []);
+
+  const center = size / 2;
+  const radius = center * 0.7;
+  const outerRadius = center * 0.18;
+  const centerRadius = center * 0.25;
 
   const calculatePoint = (angle, distance) => ({
     x: center + distance * Math.cos(angle),
@@ -104,17 +126,32 @@ const CircularMenu = ({
   });
 
   const handleClick = (topic) => {
-    if (topic === 'The (One and Only) True God') {
+    if (topic === 'The (One and Only) True God' || topic === 'One True God') {
       navigate('/one-true-god');
+    } else if (topic === 'Settings') {
+      setIsPropertiesPanelOpen(true);
+    } else if (topic === 'Purification') {
+      navigate('/tazkiyyah');
     } else {
-      // Handle other topic clicks
-      console.log('Topic clicked:', topic);
+      // Show different messages based on user goal and level
+      const userGoal = localStorage.getItem('userGoal');
+      const userLevel = localStorage.getItem('userLevel') || 1;
+      let message = 'Coming soon!';
+      
+      if (userGoal === 'doubts') {
+        message = `This section will help you find evidence and answers to your questions at Level ${userLevel}. Coming soon!`;
+      } else if (userGoal === 'explore') {
+        message = `This section will help you explore and discover new aspects of Islam at Level ${userLevel}. Coming soon!`;
+      } else if (userGoal === 'improve') {
+        message = `This section will help you improve your practice and build better habits at Level ${userLevel}. Coming soon!`;
+      }
+      
+      alert(message);
     }
   };
 
   // Use a fixed font size for all topic titles (outer circles)
   const topicFontSize = outerRadius * 0.18;
-  
   // Calculate font size for center title to fit within the center circle
   const getCenterFontSize = (text) => {
     const base = centerRadius * 0.22;
@@ -130,6 +167,7 @@ const CircularMenu = ({
         themeName === 'story' ? 'animate-fade-in' : ''
       }`}
       style={{
+        // backgroundColor: theme.background, // Removed to allow background image to show
         color: theme.text,
         fontFamily: themeName === 'story' ? `'Poppins', sans-serif` : 'inherit',
       }}
@@ -157,13 +195,13 @@ const CircularMenu = ({
       <div className="flex flex-col items-center">
         <h1
           className="text-3xl sm:text-5xl font-bold text-center"
-          style={themeName === 'story' ? { color: theme.primary, textShadow: 'none', marginBottom: 0 } : { color: theme.secondary, textShadow: '0 0 6px #00f2fa', marginBottom: 0 }}
+          style={{ color: theme.secondary, textShadow: '0 0 6px #00f2fa', marginBottom: 0 }}
         >
           {wheelTitle}
         </h1>
         <div
           className="text-base sm:text-2xl font-semibold text-center mb-6"
-          style={themeName === 'story' ? { color: theme.secondary, textShadow: 'none', marginTop: 4 } : { color: theme.secondary, textShadow: '0 0 6px #00f2fa', marginTop: 4 }}
+          style={{ color: theme.secondary, textShadow: '0 0 6px #00f2fa', marginTop: 4 }}
         >
           {wheelSubtitle}
         </div>
@@ -184,7 +222,7 @@ const CircularMenu = ({
               </defs>
             )}
 
-            {/* Outer ring */}
+            {/* Buitenste ring */}
             <circle
               cx={center}
               cy={center}
@@ -195,7 +233,7 @@ const CircularMenu = ({
               style={themeName === 'neon' ? { filter: `drop-shadow(0 0 6px ${theme.border})` } : {}}
             />
 
-            {/* Radial lines */}
+            {/* Stralenlijnen */}
             {topics.map((_, index) => {
               const angle = (index / topics.length) * 2 * Math.PI;
               const lineStart = calculatePoint(angle, centerRadius);
@@ -214,14 +252,14 @@ const CircularMenu = ({
               );
             })}
 
-            {/* Center circle */}
+            {/* Centrale cirkel */}
             {(() => {
               const centerFill =
                 themeName === 'story' ? 'url(#centerGradient)' : theme.background;
               const centerStroke =
-                themeName === 'story' ? theme.border : theme.border;
+                themeName === 'story' ? '#a084e8' : theme.border;
               const centerTextColor =
-                themeName === 'story' ? theme.secondary : theme.secondary;
+                themeName === 'story' ? '#ffffff' : theme.secondary;
 
               return (
                 <>
@@ -235,28 +273,16 @@ const CircularMenu = ({
                     onClick={() => handleClick('The (One and Only) True God')}
                     style={themeName === 'neon' ? { cursor: 'pointer', filter: `drop-shadow(0 0 6px ${theme.border})` } : { cursor: 'pointer' }}
                     onMouseEnter={(e) => {
-                      if (themeName === 'story') {
-                        e.target.style.filter = 'brightness(1.05)';
-                      } else {
-                        e.target.style.filter = `drop-shadow(0 0 15px ${centerStroke}) drop-shadow(0 0 30px ${centerStroke})`;
-                      }
+                      e.target.style.filter = `drop-shadow(0 0 15px ${centerStroke}) drop-shadow(0 0 30px ${centerStroke})`;
                     }}
                     onMouseLeave={(e) => {
                       e.target.style.filter = themeName === 'neon' ? `drop-shadow(0 0 6px ${theme.border})` : 'none';
                     }}
                     onMouseDown={(e) => {
-                      if (themeName === 'story') {
-                        e.target.style.filter = 'brightness(0.95)';
-                      } else {
-                        e.target.style.filter = `drop-shadow(0 0 5px ${centerStroke}) drop-shadow(0 0 10px ${centerStroke}) inset 0 0 10px rgba(0, 0, 0, 0.3)`;
-                      }
+                      e.target.style.filter = `drop-shadow(0 0 5px ${centerStroke}) drop-shadow(0 0 10px ${centerStroke}) inset 0 0 10px rgba(0, 0, 0, 0.3)`;
                     }}
                     onMouseUp={(e) => {
-                      if (themeName === 'story') {
-                        e.target.style.filter = 'brightness(1.05)';
-                      } else {
-                        e.target.style.filter = `drop-shadow(0 0 15px ${centerStroke}) drop-shadow(0 0 30px ${centerStroke})`;
-                      }
+                      e.target.style.filter = `drop-shadow(0 0 15px ${centerStroke}) drop-shadow(0 0 30px ${centerStroke})`;
                     }}
                   />
                   {userGoal === 'improve' ? (
@@ -307,7 +333,7 @@ const CircularMenu = ({
               );
             })()}
 
-            {/* Outer segments */}
+            {/* Buitenste cirkels + labels */}
             {topics.map((topic, index) => {
               const angle = (index / topics.length) * 2 * Math.PI;
               const pos = calculatePoint(angle, radius * 0.86);
@@ -437,9 +463,10 @@ const CircularMenu = ({
           </svg>
         </div>
 
+
         <div className="flex justify-center gap-4 mt-4">
           <button 
-            onClick={onSettingsClick}
+            onClick={() => setIsPropertiesPanelOpen(true)}
             className="px-3 py-1.5 text-xs rounded border transition-all duration-200 active:scale-95"
             style={{
               color: '#00f2fa',
@@ -469,7 +496,7 @@ const CircularMenu = ({
           </button>
           
           <button 
-            onClick={onResetClick}
+            onClick={handleResetOnboarding}
             className="px-3 py-1.5 text-xs rounded border transition-all duration-200 active:scale-95"
             style={{
               color: '#FF007F',
@@ -503,7 +530,14 @@ const CircularMenu = ({
       {/* Floating AI Companion Button */}
       {userGoal && (
         <button
-          onClick={onAIClick}
+          onClick={() => {
+            const messages = {
+              doubts: `Hey! How are you? 👋\n\nI'm here to answer your questions about Islam at Level ${userLevel}.\nNo judgment, no pressure - just honest, helpful answers.\n\nWhat's on your mind?`,
+              explore: `Ready to discover? Let's explore together! 🌟\n\nI'm here to guide your learning journey through Islam at Level ${userLevel}.\nLet's find the perfect topics for you to explore!`,
+              improve: `Ready to grow? Let's build better habits! 🎯\n\nI'm here to help you set goals, track progress, and improve your practice at Level ${userLevel}.\nWhat area would you like to focus on first?`
+            };
+            alert(messages[userGoal] || "Hello! How can I help you today?");
+          }}
           className="fixed bottom-6 right-6 w-16 h-16 rounded-full text-white font-bold text-lg shadow-lg transition-all duration-200 hover:scale-110 hover:shadow-xl"
           style={{
             backgroundColor: theme.secondary,
@@ -515,8 +549,50 @@ const CircularMenu = ({
           {userGoal === 'doubts' ? '❓' : userGoal === 'explore' ? '🌟' : '🎯'}
         </button>
       )}
+
+      {/* Remove all view state and conditional rendering for 'names', 'detail', etc. Only keep the wheel rendering for now. */}
+      {/* {view === 'names' && (
+        <NamesOfAllah
+          onBack={() => setView('wheel')}
+          onNameClick={(name) => {
+            setSelectedName(name);
+            setView('detail');
+          }}
+          language={language}
+        />
+      )} */}
+
+      {/* {view === 'detail' && selectedName && (
+        <NameDetail
+          name={selectedName}
+          onBack={() => setView('names')}
+          onMore={() => alert('More info coming soon')}
+        />
+      )} */}
+
+      {/* {view === 'settings' && (
+        <Settings
+          language={language}
+          setLanguage={setLanguage}
+          onBack={() => setView('wheel')}
+        />
+      )} */}
+
+      {/* {view === 'tazkiyyah' && (
+        <TazkiyyahLanding onBack={() => setView('wheel')} />
+      )} */}
+
+            {/* Settings Component */}
+      <Settings 
+        isOpen={isPropertiesPanelOpen}
+        onClose={() => setIsPropertiesPanelOpen(false)}
+        sharedGoal={sharedGoal}
+        setSharedGoal={setSharedGoal}
+        sharedLevel={sharedLevel}
+        setSharedLevel={setSharedLevel}
+      />
     </div>
   );
 };
 
-export default CircularMenu; 
+export default WheelOfIslam;

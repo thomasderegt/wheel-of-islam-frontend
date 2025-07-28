@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 const MenuText = ({ 
   children, 
@@ -16,11 +17,16 @@ const MenuText = ({
   };
 
   const baseClasses = variantClasses[variant] || variantClasses.body;
+  const { theme, themeName } = useTheme();
 
   return (
     <div
       className={`${baseClasses} ${className}`}
-      style={{
+      style={themeName === 'story' ? {
+        color: variant === 'title' ? theme.primary : variant === 'subtitle' ? theme.secondary : theme.text,
+        textShadow: 'none',
+        ...style
+      } : {
         color: color,
         textShadow: `0 0 6px ${color}`,
         ...style

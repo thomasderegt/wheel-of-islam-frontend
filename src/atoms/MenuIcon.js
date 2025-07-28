@@ -1,12 +1,16 @@
 import React from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 const MenuIcon = ({ 
   icon, 
   size = 'medium',
-  color = '#00f2fa',
+  color,
   className = '',
   style = {}
 }) => {
+  const { theme, themeName } = useTheme();
+  const iconColor = color || theme.secondary;
+  
   const sizeClasses = {
     small: 'text-sm',
     medium: 'text-lg',
@@ -20,8 +24,8 @@ const MenuIcon = ({
     <div
       className={baseClasses}
       style={{
-        color: color,
-        textShadow: `0 0 6px ${color}`,
+        color: iconColor,
+        textShadow: themeName === 'neon' ? `0 0 6px ${iconColor}` : 'none',
         ...style
       }}
     >

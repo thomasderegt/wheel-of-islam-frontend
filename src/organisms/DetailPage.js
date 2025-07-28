@@ -1,8 +1,9 @@
 import React from 'react';
+import { useTheme } from '../context/ThemeContext';
 import MenuContainer from '../atoms/MenuContainer';
 import MenuText from '../atoms/MenuText';
 import MenuButton from '../atoms/MenuButton';
-import ProgressBar from '../components/ProgressBar';
+import ProgressBar from '../atoms/ProgressBar';
 
 const DetailPage = ({ 
   title,
@@ -13,20 +14,24 @@ const DetailPage = ({
   className = '',
   style = {}
 }) => {
+  const { theme, themeName } = useTheme();
+
   return (
     <MenuContainer variant="default" className={`p-6 flex flex-col items-center justify-center min-h-screen text-white ${className}`} style={style}>
       {/* Circular Display */}
       <div
-        className="bg-black text-teal-400 border-4 rounded-full flex flex-col items-center justify-center"
+        className="border-4 rounded-full flex flex-col items-center justify-center"
         style={{
-          color: '#00f2fa',
-          borderColor: '#00f2fa',
+          color: theme.secondary,
+          borderColor: theme.secondary,
+          backgroundColor: themeName === 'story' ? theme.background : '#000',
           width: '350px',
           height: '350px',
           padding: '20px',
           marginBottom: '30px',
           fontSize: '2.5rem',
           fontWeight: 'bold',
+          boxShadow: themeName === 'neon' ? `0 0 20px ${theme.secondary}40` : '0 4px 24px rgba(0,0,0,0.1)'
         }}
       >
         <div style={{ marginBottom: '8px' }}>{title}</div>
@@ -47,7 +52,7 @@ const DetailPage = ({
             <MenuButton
               key={button.id || index}
               onClick={button.onClick}
-              color={button.color || '#00f2fa'}
+              color={button.color}
               width="200px"
               size="medium"
             >

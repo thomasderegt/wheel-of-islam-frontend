@@ -1,11 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 import MenuContainer from '../atoms/MenuContainer';
 import MenuText from '../atoms/MenuText';
 import MenuButton from '../atoms/MenuButton';
 import MenuItem from '../atoms/MenuItem';
-import ProgressBar from '../components/ProgressBar';
+import ProgressBar from '../atoms/ProgressBar';
 
 const GridMenu = ({ 
   title = 'The Names of The One True God',
@@ -17,6 +18,7 @@ const GridMenu = ({
 }) => {
   const navigate = useNavigate();
   const { language } = useLanguage();
+  const { theme, themeName } = useTheme();
 
   const handleItemClick = (item) => {
     if (onItemClick) {
@@ -43,7 +45,16 @@ const GridMenu = ({
             key={item.id || index}
             onClick={() => handleItemClick(item)}
             className="p-4 h-40 flex flex-col items-center justify-center text-center"
-            style={{
+            style={themeName === 'story' ? {
+              color: theme.text,
+              border: `1px solid ${theme.border}`,
+              backgroundColor: '#f6f1eb !important',
+              minWidth: '150px',
+              minHeight: '150px',
+              borderRadius: '8px',
+              boxShadow: '0 4px 24px rgba(196,164,132,0.10)',
+              margin: '0px',
+            } : {
               color: '#00f2fa',
               borderColor: '#00f2fa',
               minWidth: '150px',

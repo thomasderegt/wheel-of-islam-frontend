@@ -1,9 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 import MenuContainer from '../atoms/MenuContainer';
 import MenuText from '../atoms/MenuText';
 import MenuButton from '../atoms/MenuButton';
-import ProgressBar from '../components/ProgressBar';
+import ProgressBar from '../atoms/ProgressBar';
 
 const IntroPage = ({ 
   title = 'The One True God',
@@ -15,6 +16,7 @@ const IntroPage = ({
   style = {}
 }) => {
   const navigate = useNavigate();
+  const { theme, themeName } = useTheme();
 
   return (
     <MenuContainer variant="default" className={`min-h-screen text-white flex flex-col items-center justify-center p-6 ${className}`} style={style}>
@@ -37,7 +39,11 @@ const IntroPage = ({
             <div className="mb-8">
               <div className="relative w-full max-w-2xl mx-auto">
                 <video 
-                  className="w-full rounded-lg border-2 border-gray-700"
+                  className="w-full rounded-lg"
+                  style={{
+                    border: '2px solid #00f2fa',
+                    boxShadow: themeName === 'neon' ? `0 0 20px ${theme.secondary}40` : '0 4px 24px rgba(0,0,0,0.1)'
+                  }}
                   controls
                   preload="metadata"
                 >
@@ -56,7 +62,7 @@ const IntroPage = ({
               <MenuButton
                 key={button.id || index}
                 onClick={button.onClick}
-                color={button.color || '#00f2fa'}
+                color={button.color}
                 width="200px"
                 size={button.size || 'medium'}
               >
