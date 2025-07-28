@@ -79,9 +79,9 @@ const CircularMenu = ({
 
   // Calculate dimensions
   const center = size / 2;
-  const radius = size * 0.4;
-  const centerRadius = radius * 0.15;
-  const outerRadius = radius * 0.12;
+  const radius = center * 0.7;
+  const outerRadius = center * 0.18;
+  const centerRadius = center * 0.25;
 
   // Update size on window resize
   useLayoutEffect(() => {
