@@ -36,17 +36,14 @@ const IntroPage = ({
           {videoPlaceholder && (
             <div className="mb-8">
               <div className="relative w-full max-w-2xl mx-auto">
-                <div className="aspect-video bg-gray-900 rounded-lg border-2 border-gray-700 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-6xl mb-4">🎥</div>
-                    <MenuText variant="body" className="text-lg text-gray-400">
-                      Introduction Video
-                    </MenuText>
-                    <MenuText variant="caption" className="text-sm text-gray-500 mt-2">
-                      Coming Soon
-                    </MenuText>
-                  </div>
-                </div>
+                <video 
+                  className="w-full rounded-lg border-2 border-gray-700"
+                  controls
+                  preload="metadata"
+                >
+                  <source src="/Introduction_Video_The_One_True_God.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
               </div>
             </div>
           )}
